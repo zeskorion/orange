@@ -282,12 +282,14 @@
 	created_item = /obj/item/gun/ballistic/arquebus
 	craftdiff = 5
 
+/* OV Edit: Refactor arquebus pistol to inherit from arquebus.
 /datum/anvil_recipe/engineering/pistol
 	name = "Arquebus Pistol (+1 cog, +1 wood)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/grown/log/tree/small) //A little cheaper!
 	created_item = /obj/item/gun/ballistic/arquebus_pistol
 	craftdiff = 5
+*/ // OV Edit End
 
 /datum/anvil_recipe/engineering/powderbag
 	name = "Powder Flask (+1 Cured Hide, +1 Infernal ash, +1 Coal)"

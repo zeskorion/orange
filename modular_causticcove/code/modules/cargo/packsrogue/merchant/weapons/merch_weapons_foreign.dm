@@ -3,10 +3,12 @@
 	cost = 250
 	contains = list(/obj/item/gun/ballistic/arquebus)
 
+/* OV Edit: Refactor arquebus pistol to inherit from arquebus.
 /datum/supply_pack/rogue/merc_weapons/arquebus_pistol
 	name = "Grenzelhoft Arquebus Pistol"
 	cost = 225 // Revisit this as the pistol gets better balanced.
 	contains = list(/obj/item/gun/ballistic/arquebus_pistol)
+*/ // OV Edit End
 
 /datum/supply_pack/rogue/merc_weapons/arquebus_powderflask
 	name = "Arquebus Powderflask"

@@ -270,6 +270,7 @@
 
 
 /// PISTOLS
+/* OV Edit: Refactor arquebus pistol to inherit from arquebus.
 /obj/item/gun/ballistic/arquebus_pistol // I'm gonna fucking kill someone for this copypasted bullshit, but I refuse to fix it right now. -Ace
 	name = "arquebus pistol"
 	desc = "A gunpowder weapon that shoots an armor piercing metal ball."
@@ -504,6 +505,7 @@
 	if (!reloaded)
 		return FALSE
 	return ..()
+*/ // OV Edit End
 
 /obj/item/ammo_box/magazine/internal/arquebus
 	name = "arquebus internal magazine"
