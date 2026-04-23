@@ -151,6 +151,7 @@
 		wield(user)
 	update_icon()
 
+/* OV Edit: Refactor arquebus loading logic.
 /obj/item/gun/ballistic/arquebus/attackby(obj/item/A, mob/living/carbon/user, params) // Reloading code for rifle
 	user.stop_sound_channel(gunchannel)
 	var/firearm_skill = (user?.mind ? user.get_skill_level(/datum/skill/combat/firearms) : 1)
@@ -216,6 +217,7 @@
 			to_chat(user, span_warning("There's already a [R.name] inside of [src]."))
 			return
 		user.stop_sound_channel(gunchannel)
+*/ // OV Edit End
 
 /obj/item/gun/ballistic/arquebus/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 
