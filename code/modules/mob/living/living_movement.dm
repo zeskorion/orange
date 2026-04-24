@@ -26,8 +26,6 @@
 			var/mob/living/M = mover
 			if(istype(M.current_size, /datum/sizecat/micro) || istype(src.current_size, /datum/sizecat/micro) || !cmode)
 				return TRUE
-			return FALSE
-		return TRUE
 	//OVEdit End
 	if(istype(mover, /obj/projectile))
 		var/obj/projectile/P = mover
