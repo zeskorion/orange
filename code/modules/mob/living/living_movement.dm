@@ -24,7 +24,7 @@
 	if((mover.pass_flags & SIZEPASS) || (pass_flags & SIZEPASS))
 		if(ismob(mover) && isliving(mover))
 			var/mob/living/M = mover
-			if(istype(M.current_size, /datum/sizecat/micro) || istype(src.current_size, /datum/sizecat/micro) || !cmode)
+			if(istype(M.current_size, /datum/sizecat/micro) || istype(src.current_size, /datum/sizecat/micro) || (!cmode && mind))
 				return TRUE
 	//OVEdit End
 	if(istype(mover, /obj/projectile))
