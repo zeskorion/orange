@@ -1295,6 +1295,8 @@
 	apply_petrified_appearance()
 	if(ishuman(owner))
 		petrification_debug_human_state("on_apply-after-appearance", owner)
+	owner.shifting = FALSE
+	owner.unpixel_shift()
 	owner.stabilize_petrified_body()
 	owner.update_mobility()
 	owner.clear_petrified_active_ability()
