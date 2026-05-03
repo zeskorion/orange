@@ -93,6 +93,8 @@
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["dynamic_role"] = resolve_dynamic_role(user)
+	data["region_tp_multipliers"] = build_region_tp_multipliers()
+	data["region_delivery_multipliers"] = build_region_delivery_multipliers()
 	if(data["dynamic_role"] == "innkeeper")
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
@@ -121,7 +123,6 @@
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
-		data["region_tp_multipliers"] = build_region_tp_multipliers()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_recall_list"] = build_blockade_recall_list()

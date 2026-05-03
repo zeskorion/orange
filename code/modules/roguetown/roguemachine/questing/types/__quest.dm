@@ -247,6 +247,11 @@
 		if(!A || QDELETED(A))
 			continue
 
+		if(isliving(A))
+			var/mob/living/L = A
+			if(L.stat == DEAD)
+				continue
+
 		var/turf/A_turf = get_turf(A)
 		if(!A_turf)
 			continue
