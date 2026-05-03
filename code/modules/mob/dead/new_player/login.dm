@@ -14,11 +14,6 @@
 
 	sight |= SEE_TURFS
 
-	// OV Edit Start
-	if(SSticker?.IsRoundInProgress() && try_rejoin_surrendered_petrified_body(TRUE))
-		return
-	// OV Edit End
-
 	addtimer(CALLBACK(src, PROC_REF(do_after_login)), 4 SECONDS)
 	new_player_panel()
 

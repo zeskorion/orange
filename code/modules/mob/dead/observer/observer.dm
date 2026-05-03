@@ -501,6 +501,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 //		to_chat(usr, span_warning("I can return in [mind.current.timeofdeath + RESPAWNTIME - world.time]."))
 //		return
 
+	// OV Edit Start
+	release_kink_death_role(src)
+	// OV Edit End
+
 	if(key)
 		if(modifier)
 			GLOB.respawntimes[key] = world.time + modifier
@@ -532,9 +536,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return
 
 	client.verbs -= GLOB.ghost_verbs
-	// OV Edit Start
-	M.skip_surrendered_petrified_auto_rejoin = TRUE
-	// OV Edit End
 	M.key = key
 	return
 

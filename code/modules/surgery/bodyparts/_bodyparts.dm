@@ -179,12 +179,6 @@
 	return list(/datum/intent/grab/move, /datum/intent/grab/shove)
 
 /obj/item/bodypart/Destroy()
-	// OV Edit Start
-	if(istype(src, /obj/item/bodypart/head))
-		var/mob/living/original_living = original_owner
-		if(original_living?.has_status_effect(STATUS_EFFECT_PETRIFIED) && original_living.stat != DEAD)
-			original_living.petrification_statue_death("smashed apart")
-	// OV Edit End
 	if(owner)
 		owner.bodyparts -= src
 		owner = null

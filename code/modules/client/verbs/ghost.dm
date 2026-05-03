@@ -27,7 +27,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	if(isliving(mob))
 		var/mob/living/living_mob = mob
 		if(living_mob.stat != DEAD && living_mob.has_status_effect(STATUS_EFFECT_PETRIFIED))
-			to_chat(living_mob, span_warning("My petrified body holds my soul fast."))
+			living_mob.petrification_surrender()
 			return
 	// OV Edit End
 
@@ -54,7 +54,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	if(isliving(mob))
 		var/mob/living/living_mob = mob
 		if(living_mob.stat != DEAD && living_mob.has_status_effect(STATUS_EFFECT_PETRIFIED))
-			to_chat(living_mob, span_warning("My petrified body holds my soul fast."))
+			living_mob.petrification_surrender()
 			return
 	// OV Edit End
 
@@ -109,9 +109,6 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		return
 
 	client?.verbs -= GLOB.ghost_verbs
-	// OV Edit Start
-	M.skip_surrendered_petrified_auto_rejoin = TRUE
-	// OV Edit End
 	M.key = key
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
 		qdel(src)

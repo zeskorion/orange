@@ -80,6 +80,11 @@
 			return list(/datum/intent/grab/move, /datum/intent/grab/choke, /datum/intent/grab/hostage)
 
 /obj/item/bodypart/head/Destroy()
+	// OV Edit Start
+	var/mob/living/original_living = original_owner
+	if(original_living?.has_status_effect(STATUS_EFFECT_PETRIFIED) && original_living.stat != DEAD)
+		original_living.petrification_statue_death("smashed apart")
+	// OV Edit End
 	QDEL_NULL(brainmob) //order is sensitive, see warning in handle_atom_del() below
 	QDEL_NULL(brain)
 	QDEL_NULL(eyes)

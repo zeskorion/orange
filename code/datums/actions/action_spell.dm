@@ -32,19 +32,13 @@
 /datum/action/spell_action/IsAvailable()
 	if(!target)
 		return FALSE
-	// OV Edit Start
-	return ..()
-	// OV Edit End
+	return TRUE
 
 /datum/action/spell_action/spell
 
 /datum/action/spell_action/spell/IsAvailable()
 	if(!target || !owner)
 		return FALSE
-	// OV Edit Start
-	if(!..())
-		return FALSE
-	// OV Edit End
 	var/obj/effect/proc_holder/spell/S = target
 	return S.can_cast(owner, feedback = FALSE)
 

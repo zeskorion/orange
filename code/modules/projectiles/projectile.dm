@@ -281,7 +281,7 @@
 
 	if(blocked != 100) // not completely blocked
 		// OV Edit Start
-		if(damage && L.blood_volume && damage_type == BRUTE && !L.IsPetrified() && L.get_blood_id())
+		if(damage && L.blood_volume && damage_type == BRUTE && !L.IsPetrified())
 		// OV Edit End
 			var/splatter_dir = dir
 			if(starting)

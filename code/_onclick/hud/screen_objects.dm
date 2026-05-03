@@ -360,18 +360,10 @@
 		return TRUE
 
 	if(user.active_hand_index == held_index)
-		// OV Edit Start
-		if(user.incapacitated())
-			return TRUE
-		// OV Edit End
 		var/obj/item/I = user.get_active_held_item()
 		if(I)
 			I.Click(location, control, params)
 	else
-		// OV Edit Start
-		if(user.incapacitated())
-			return TRUE
-		// OV Edit End
 		user.swap_hand(held_index)
 	return TRUE
 
@@ -401,7 +393,11 @@
 		var/mob/M = usr
 		M.playsound_local(M, 'sound/misc/click.ogg', 100)
 	// OV Edit Start
-	if(usr.stat == CONSCIOUS && !usr.incapacitated())
+	var/petrified_user = FALSE
+	if(isliving(usr))
+		var/mob/living/L = usr
+		petrified_user = L.IsPetrified()
+	if(usr.stat == CONSCIOUS && !petrified_user)
 	// OV Edit End
 		usr.dropItemToGround(usr.get_active_held_item())
 
@@ -1083,10 +1079,6 @@
 /atom/movable/screen/throw_catch/Click()
 	if(iscarbon(usr))
 		var/mob/living/carbon/C = usr
-		// OV Edit Start
-		if(C.incapacitated())
-			return
-		// OV Edit End
 		C.toggle_throw_mode()
 
 /atom/movable/screen/throw_catch/update_icon()

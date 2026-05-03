@@ -103,18 +103,21 @@ There are several things that need to be remembered:
 	START_PROCESSING(SSdamoverlays,src)
 
 /mob/living/carbon/human/proc/update_damage_overlays_real()
+	// OV Edit Start
+	var/petrified = IsPetrified()
+	if(!petrified && dna.species)
+		if(dna.species.update_damage_overlays(src))
+			return
+	// OV Edit End
+
 	remove_overlay(DAMAGE_LAYER)
 	remove_overlay(LEG_DAMAGE_LAYER)
 	remove_overlay(ARM_DAMAGE_LAYER)
 
 	// OV Edit Start
-	if(IsPetrified())
+	if(petrified)
 		return
 	// OV Edit End
-
-	if(dna.species)
-		if(dna.species.update_damage_overlays(src))
-			return
 
 	var/limb_icon = dna.species.dam_icon
 	var/hidechest = FALSE

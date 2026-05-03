@@ -463,7 +463,7 @@
 	if(!petrified)
 		return
 	var/list/choices = list("Surrender", "Cancel")
-	var/choice = tgui_alert(src, "You are petrified. Surrender will separate your spirit from your petrified body. You may re-enter it while it remains intact, or use Afterlife to return to the lobby.", "Petrification", choices)
+	var/choice = tgui_alert(src, "You are petrified. Surrender will separate your spirit from your petrified body. You may use Afterlife to return to the lobby; if you return as this character, the abandoned statue will dissolve.", "Petrification", choices)
 	if(choice == "Surrender")
 		var/confirm = tgui_alert(src, "Are you sure you want to surrender your petrified body and become a ghost?", "Confirm Surrender", list("Yes", "No"))
 		if(confirm != "Yes")
@@ -938,33 +938,41 @@
 		return body
 	return null
 
-/mob/dead/new_player/proc/try_rejoin_surrendered_petrified_body(automatic = FALSE)
-	if(automatic && skip_surrendered_petrified_auto_rejoin)
+/proc/release_kink_death_role(mob/dead/observer/ghost)
+	if(!ghost?.mind?.assigned_role)
 		return FALSE
-	var/mob/living/carbon/human/body = find_surrendered_petrified_body(ckey, client?.prefs?.real_name)
+	var/mob/living/body = ghost.mind.current
+	var/datum/status_effect/petrified/petrified
+	if(istype(body))
+		petrified = body.has_status_effect(STATUS_EFFECT_PETRIFIED)
+	var/surrendered_petrification = petrified?.surrendered_ckey && petrified.surrendered_ckey == ckey(ghost.ckey)
+	if(!ghost.vore_death && !surrendered_petrification)
+		return FALSE
+	if(petrified?.role_released)
+		return FALSE
+	var/datum/job/old_job = SSjob.GetJob(ghost.mind.assigned_role)
+	if(!old_job)
+		return FALSE
+	old_job.current_positions = max(0, old_job.current_positions - 1)
+	if(petrified)
+		petrified.role_released = TRUE
+	message_admins("[key_name_admin(ghost)] left after a kink death, freeing [old_job.title].")
+	log_game("[key_name(ghost)] left after a kink death, freeing [old_job.title].")
+	return TRUE
+
+/proc/cleanup_surrendered_petrified_body(rejoining_ckey, character_name, mob/living/new_character)
+	var/mob/living/carbon/human/body = find_surrendered_petrified_body(rejoining_ckey, character_name)
 	if(!body)
 		return FALSE
-	if(body.key && copytext(body.key, 1, 2) != "@")
-		to_chat(src, span_warning("Another consciousness is already in that petrified body."))
-		return TRUE
-	close_spawn_windows()
-	SSticker.queued_players -= src
-	if(client)
-		client.screen.Cut()
-		client.screen += client.void
-		SSdroning.kill_rain(client)
-		SSdroning.kill_loop(client)
-		SSdroning.kill_droning(client)
-		remove_client_colour(/datum/client_colour/monochrome)
-		client.change_view(CONFIG_GET(string/default_view))
-		client.verbs -= GLOB.ghost_verbs
-	SStgui.on_transfer(src, body)
-	body.aghosted = null
-	body.key = key
-	body.stop_sound_channel(CHANNEL_LOBBYMUSIC)
-	body.update_fov_angles()
-	to_chat(body, span_notice("I return to my petrified body."))
-	qdel(src)
+	if(body == new_character)
+		return FALSE
+	var/turf/body_turf = get_turf(body)
+	body.visible_message(span_notice("[body]'s abandoned statue abruptly dissolves away in a fine mist of glittering magical particles."))
+	if(body_turf)
+		new /obj/effect/temp_visual/spell_impact(body_turf, body.get_petrification_render_color(), SPELL_IMPACT_MEDIUM)
+	message_admins("[key_name_admin(new_character)] returned as [character_name]; removing surrendered petrified body [body] belonging to [rejoining_ckey].")
+	log_game("[key_name(new_character)] returned as [character_name]; removing surrendered petrified body [body] belonging to [rejoining_ckey].")
+	qdel(body)
 	return TRUE
 
 /mob/living/proc/stabilize_petrified_body()
@@ -1258,6 +1266,7 @@
 	var/surrendered_ckey
 	var/surrendered_character_name
 	var/surrendered_base_character_name
+	var/role_released = FALSE
 
 /datum/status_effect/petrified/on_creation(mob/living/new_owner, new_material, new_color, new_permanent, new_sensitive, list/new_flavour_texts, mob/living/new_petrifier)
 	if(new_material)
