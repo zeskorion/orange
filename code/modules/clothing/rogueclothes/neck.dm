@@ -464,6 +464,7 @@
 	leashable = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	name = "psycross"
 	desc = "'With every broken bone, I swore I lived!'"
 	icon_state = "psycross"
