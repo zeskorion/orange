@@ -272,6 +272,12 @@
 			resolveAdjacentClick(A,W,params)
 			return
 
+	// OV Edit Start: Allow clicking items in a belly with you
+	if(isbelly(A.loc) && A.loc == loc)
+		resolveAdjacentClick(A, W, params)
+		return
+	// OV Edit End
+
 	if(W)
 		if(ismob(A))
 			var/turf/target_turf = get_turf(A)

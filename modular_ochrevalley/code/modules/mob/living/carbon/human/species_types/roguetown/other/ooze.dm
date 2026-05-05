@@ -39,7 +39,7 @@
 		)
 	race_bonus = list(STAT_PERCEPTION = 1, STAT_INTELLIGENCE = -1)
 	inherent_traits = list(
-						//TRAIT_NOBREATH,
+						TRAIT_NOBREATH,
 						TRAIT_ZOMBIE_IMMUNE,
 						//TRAIT_BLOODLOSS_IMMUNE,
 						TRAIT_EASYDISMEMBER,

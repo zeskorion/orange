@@ -925,7 +925,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	return FALSE //Unsupported slot
 
 /datum/species/proc/equip_delay_self_check(obj/item/I, mob/living/carbon/human/H, bypass_equip_delay_self)
-	if(!I.equip_delay_self || bypass_equip_delay_self)
+	if(!I.equip_delay_self || bypass_equip_delay_self || isbelly(H.loc)) // OV Edit: Allow equipping in tummies
 		return TRUE
 	if(HAS_TRAIT(H, TRAIT_CHUNKYFINGERS))
 		return do_after(H, 5 MINUTES, target = H)

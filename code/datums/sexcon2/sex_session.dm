@@ -174,7 +174,7 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	// OV Edit Start
+	// OV Edit Start: Belly Sex/Petrified Head
 	if(!user.Adjacent(target) && !action.ranged_action && !held_petrified_head)
 		if(!isbelly(user.loc) || user.loc != target.loc)
 			return FALSE
