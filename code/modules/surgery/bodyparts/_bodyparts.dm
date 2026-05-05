@@ -301,12 +301,6 @@
 
 //empties the bodypart from its organs and other things inside it
 /obj/item/bodypart/proc/drop_organs(mob/user, violent_removal)
-	// OV Edit Start
-	if(istype(src, /obj/item/bodypart/head))
-		var/mob/living/original_living = original_owner
-		if(original_living?.has_status_effect(STATUS_EFFECT_PETRIFIED) && original_living.stat != DEAD)
-			original_living.petrification_statue_death("smashed open", user)
-	// OV Edit End
 	var/turf/T = get_turf(src)
 	if(status != BODYPART_ROBOTIC)
 		playsound(T, 'sound/blank.ogg', 50, TRUE, -1)

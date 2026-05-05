@@ -111,6 +111,11 @@
 	return ..()
 
 /obj/item/bodypart/head/drop_organs(mob/user, violent_removal)
+	// OV Edit Start
+	var/mob/living/original_living = original_owner
+	if(original_living?.has_status_effect(STATUS_EFFECT_PETRIFIED) && original_living.stat != DEAD)
+		original_living.petrification_statue_death("smashed open", user)
+	// OV Edit End
 	var/turf/T = get_turf(src)
 	if(status != BODYPART_ROBOTIC)
 		playsound(T, 'sound/blank.ogg', 50, TRUE, -1)
