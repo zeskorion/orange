@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_NONE // OV Edit: Stop storytellers from injecting this antagonist
 	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD | STORYTELLER_FAVOR_MASQUERADE
 	storyteller_slot_scaling = 2
 	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
