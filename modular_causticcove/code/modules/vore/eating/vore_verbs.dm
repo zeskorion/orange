@@ -114,12 +114,17 @@
 				playsound(T, 'sound/gore/flesh_eat_01.ogg', 100)
 				//Add head check and move organs with limb
 				if (T_ext.body_part == HEAD)
-					T_ext.dismember(BRUTE, BCLASS_CUT, T, T_ext.body_part, 200, FALSE, TRUE)
-					T_ext.forceMove(B)
-					visible_message(span_warning("[src] swallows [T]'s [T_ext.name] into their [lowertext(B.name)]!"))
-					//Set as vore death if head
-					var/mob/dead/observer/G = T.ghostize(TRUE)
-					G.vore_death = TRUE
+					if (HAS_TRAIT(T, TRAIT_DEATHLESS) && HAS_TRAIT(T, TRAIT_EASYDECAPITATION))
+						T_ext.drop_limb(FALSE)
+						T_ext.forceMove(B)
+						visible_message(span_warning("[src] swallows [T]'s [T_ext.name] into their [lowertext(B.name)]!"))
+					else
+						T_ext.dismember(BRUTE, BCLASS_CUT, T, T_ext.body_part, 200, FALSE, TRUE)
+						T_ext.forceMove(B)
+						visible_message(span_warning("[src] swallows [T]'s [T_ext.name] into their [lowertext(B.name)]!"))
+						//Set as vore death if head
+						var/mob/dead/observer/G = T.ghostize(TRUE)
+						G.vore_death = TRUE
 				else
 					T_ext.drop_limb(1) //Clean cut so it doesn't kill the prey completely.
 					T_ext.forceMove(B)
@@ -127,15 +132,20 @@
 			else
 				playsound(T, 'sound/gore/flesh_eat_01.ogg', 100)
 				if (T_ext.body_part == HEAD)
-					T_ext.dismember(BRUTE, BCLASS_CUT, T, T_ext.body_part, 200, FALSE, TRUE)
-					T_ext.forceMove(B)
-					visible_message(span_warning("[src] tears off [T]'s [T_ext.name]!"),span_warning("You tear off [T]'s [T_ext.name]!"))
-					//Set as vore death if head
-					var/mob/dead/observer/G = T.ghostize(TRUE)
-					G.vore_death = TRUE
+					if (HAS_TRAIT(T, TRAIT_DEATHLESS) && HAS_TRAIT(T, TRAIT_EASYDECAPITATION))
+						T_ext.drop_limb(FALSE)
+						put_in_active_hand(T_ext)
+						visible_message(span_warning("[src] tears off [T]'s [T_ext.name]!"),span_warning("You tear off [T]'s [T_ext.name]!"))
+					else
+						T_ext.dismember(BRUTE, BCLASS_CUT, T, T_ext.body_part, 200, FALSE, TRUE)
+						visible_message(span_warning("[src] tears off [T]'s [T_ext.name]!"),span_warning("You tear off [T]'s [T_ext.name]!"))
+						put_in_active_hand(T_ext)
+						//Set as vore death if head
+						var/mob/dead/observer/G = T.ghostize(TRUE)
+						G.vore_death = TRUE
 				else
 					T_ext.drop_limb(1) //Clean cut so it doesn't kill the prey completely.
-					T_ext.forceMove(T.loc)
+					put_in_active_hand(T_ext)
 					visible_message(span_warning("[src] tears off [T]'s [T_ext.name]!"),span_warning("You tear off [T]'s [T_ext.name]!"))
 
 		//Not targeting an internal organ w/ > 25 damage , and the limb doesn't have < 25 damage.
