@@ -142,6 +142,8 @@
 			return mount.attackby(I, user, params)
 	// OV Edit Start
 	if(IsPetrified() && istype(I, /obj/item/rogueweapon/hammer))
+		if(hammer_sculpt_petrified(user))
+			return TRUE
 		var/obj/item/bodypart/reattach_limb = get_petrified_reattachable_bodypart(user)
 		if(reattach_limb)
 			user.visible_message(span_notice("[user] begins hammering [reattach_limb] back onto [src]."), span_notice("I begin hammering [reattach_limb] back onto [src]."))
@@ -161,6 +163,11 @@
 	return ..()
 
 // OV Edit Start
+/mob/living/carbon/human/attack_right(mob/user, params)
+	if(hammer_pose_petrified(user))
+		return TRUE
+	return ..()
+
 /mob/living/carbon/human/proc/get_petrified_reattachable_bodypart(mob/living/user)
 	if(!user)
 		return null
@@ -179,6 +186,55 @@
 	if(istype(reattach_limb, /obj/item/bodypart/head) && reattach_limb.name == "[real_name]'s head")
 		return TRUE
 	return FALSE
+
+/mob/living/carbon/human/proc/hammer_sculpt_petrified(mob/living/user)
+	if(!user || user.zone_selected != BODY_ZONE_PRECISE_STOMACH)
+		return FALSE
+	if(!user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
+		return TRUE
+	var/obj/item/held = user.get_active_held_item()
+	if(!istype(held, /obj/item/rogueweapon/hammer))
+		to_chat(user, span_warning("I need to keep holding the hammer."))
+		return TRUE
+	if(!perform_mirror_transform(src, user, TRUE))
+		return TRUE
+	if(QDELETED(src) || !IsPetrified())
+		return TRUE
+	refresh_petrified_visual_state()
+	if(QDELETED(user))
+		return TRUE
+	held = user.get_active_held_item()
+	if(Adjacent(user) && istype(held, /obj/item/rogueweapon/hammer))
+		playsound(get_turf(src), 'sound/items/bsmith2.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] sculpts [src]'s petrified form with [held]."), span_notice("I sculpt [src]'s petrified form with [held]."))
+	return TRUE
+
+/mob/living/carbon/human/proc/hammer_pose_petrified(mob/user)
+	if(!IsPetrified() || !user || user.zone_selected != BODY_ZONE_PRECISE_STOMACH)
+		return FALSE
+	var/obj/item/held = user.get_active_held_item()
+	if(!istype(held, /obj/item/rogueweapon/hammer))
+		return FALSE
+	if(!user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
+		return TRUE
+	var/new_pose = tgui_input_text(user, "Set [src]'s pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE, encode = FALSE, bigmodal = TRUE, max_length = 256)
+	if(isnull(new_pose))
+		return TRUE
+	if(QDELETED(src) || QDELETED(user) || !IsPetrified())
+		return TRUE
+	if(!user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
+		return TRUE
+	held = user.get_active_held_item()
+	if(!istype(held, /obj/item/rogueweapon/hammer))
+		to_chat(user, span_warning("I need to keep holding the hammer."))
+		return TRUE
+	if(!length(new_pose))
+		pose_text = ""
+		user.visible_message(span_notice("[user] smooths [src]'s pose away with [held]."), span_notice("I clear [src]'s pose."))
+		return TRUE
+	pose_text = parsemarkdown_basic(new_pose)
+	user.visible_message(span_notice("[user] sets [src]'s pose with careful taps of [held]."), span_notice("I set [src]'s pose."))
+	return TRUE
 
 /mob/living/carbon/human/proc/hammer_remove_petrified_bodypart(mob/living/user)
 	if(!user)

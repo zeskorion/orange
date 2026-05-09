@@ -1,4 +1,4 @@
-//OV FILE
+// OV FILE
 #define PETRIFICATION_TRAIT_SOURCE "petrification"
 #define PETRIFICATION_MATERIAL_STONE "Stone"
 #define PETRIFICATION_MATERIAL_BRONZE "Bronze"
@@ -16,13 +16,18 @@
 #define PETRIFICATION_TEXT_CAST_PUBLIC "cast_public"
 #define PETRIFICATION_TEXT_CAST_SELF "cast_self"
 #define PETRIFICATION_TEXT_CAST_TARGET "cast_target"
+#define PETRIFICATION_TEXT_SELF_CAST_PUBLIC "self_cast_public"
+#define PETRIFICATION_TEXT_SELF_CAST_SELF "self_cast_self"
 #define PETRIFICATION_TEXT_CAST_BREAK_SELF "cast_break_self"
 #define PETRIFICATION_TEXT_CAST_BREAK_TARGET "cast_break_target"
+#define PETRIFICATION_TEXT_SELF_CAST_BREAK_SELF "self_cast_break_self"
 #define PETRIFICATION_TEXT_APPLY_PUBLIC "apply_public"
 #define PETRIFICATION_TEXT_APPLY_PUBLIC_PETRIFIER "apply_public_petrifier"
 #define PETRIFICATION_TEXT_APPLY_SELF "apply_self"
+#define PETRIFICATION_TEXT_SELF_APPLY_PUBLIC "self_apply_public"
+#define PETRIFICATION_TEXT_SELF_APPLY_SELF "self_apply_self"
 #define PETRIFICATION_TEXT_EXAMINE "examine"
-#define PETRIFICATION_TEXT_TOKEN_HELP "Available tokens: {caster}, {target}, {material}, {caster_they}, {caster_them}, {caster_their}, {target_they}, {target_them}, {target_their}. Examine text may also use SUBJECTPRONOUN. Type !default while editing a text field to reset only that field."
+#define PETRIFICATION_TEXT_TOKEN_HELP "Available tokens: {caster}, {target}, {material}, {caster_they}, {caster_them}, {caster_their}, {target_they}, {target_them}, {target_their}. For self-petrification, caster and target are both you. Examine text may also use SUBJECTPRONOUN. Type !default while editing a text field to reset only that field."
 // Replace this no-op body with log_world("PETRIFY-DEBUG: [debug_message]") to re-enable the temporary audit probes.
 
 /mob/living
@@ -44,11 +49,16 @@
 		PETRIFICATION_TEXT_CAST_PUBLIC = "{caster} focuses a petrifying gaze on {target}...",
 		PETRIFICATION_TEXT_CAST_SELF = "I focus my petrifying gaze on {target}...",
 		PETRIFICATION_TEXT_CAST_TARGET = "{caster}'s petrifying gaze locks onto me!",
+		PETRIFICATION_TEXT_SELF_CAST_PUBLIC = "{caster} begins transforming {caster_them}self into {material}.",
+		PETRIFICATION_TEXT_SELF_CAST_SELF = "I begin transforming myself into {material}.",
 		PETRIFICATION_TEXT_CAST_BREAK_SELF = "My petrifying focus breaks.",
 		PETRIFICATION_TEXT_CAST_BREAK_TARGET = "The petrifying pressure fades.",
+		PETRIFICATION_TEXT_SELF_CAST_BREAK_SELF = "My self-petrification falters before it can take hold.",
 		PETRIFICATION_TEXT_APPLY_PUBLIC = "{target} appears to have been transformed into a statue made from {material}.",
 		PETRIFICATION_TEXT_APPLY_PUBLIC_PETRIFIER = "{target} appears to have been transformed into a statue made from {material} under {caster}'s petrifying gaze.",
 		PETRIFICATION_TEXT_APPLY_SELF = "My limbs suddenly feel heavy, I can't move! Oh no, I've been petrified! I've been transformed into {material}!",
+		PETRIFICATION_TEXT_SELF_APPLY_PUBLIC = "{target} finishes transforming {target_them}self into a statue made from {material}.",
+		PETRIFICATION_TEXT_SELF_APPLY_SELF = "My body turns rigid and still as I finish transforming myself into {material}.",
 		PETRIFICATION_TEXT_EXAMINE = "SUBJECTPRONOUN appears to have been transformed into a statue made from {material}.",
 	)
 
@@ -57,11 +67,16 @@
 		PETRIFICATION_TEXT_CAST_PUBLIC,
 		PETRIFICATION_TEXT_CAST_SELF,
 		PETRIFICATION_TEXT_CAST_TARGET,
+		PETRIFICATION_TEXT_SELF_CAST_PUBLIC,
+		PETRIFICATION_TEXT_SELF_CAST_SELF,
 		PETRIFICATION_TEXT_CAST_BREAK_SELF,
 		PETRIFICATION_TEXT_CAST_BREAK_TARGET,
+		PETRIFICATION_TEXT_SELF_CAST_BREAK_SELF,
 		PETRIFICATION_TEXT_APPLY_PUBLIC,
 		PETRIFICATION_TEXT_APPLY_PUBLIC_PETRIFIER,
 		PETRIFICATION_TEXT_APPLY_SELF,
+		PETRIFICATION_TEXT_SELF_APPLY_PUBLIC,
+		PETRIFICATION_TEXT_SELF_APPLY_SELF,
 		PETRIFICATION_TEXT_EXAMINE,
 	)
 
@@ -73,16 +88,26 @@
 			return "Cast start, seen by caster"
 		if(PETRIFICATION_TEXT_CAST_TARGET)
 			return "Cast start, seen by target"
+		if(PETRIFICATION_TEXT_SELF_CAST_PUBLIC)
+			return "Self-petrification start, seen by others"
+		if(PETRIFICATION_TEXT_SELF_CAST_SELF)
+			return "Self-petrification start, seen by self"
 		if(PETRIFICATION_TEXT_CAST_BREAK_SELF)
 			return "Cast interrupted, seen by caster"
 		if(PETRIFICATION_TEXT_CAST_BREAK_TARGET)
 			return "Cast interrupted, seen by target"
+		if(PETRIFICATION_TEXT_SELF_CAST_BREAK_SELF)
+			return "Self-petrification interrupted, seen by self"
 		if(PETRIFICATION_TEXT_APPLY_PUBLIC)
 			return "Petrified, seen by others"
 		if(PETRIFICATION_TEXT_APPLY_PUBLIC_PETRIFIER)
 			return "Petrified by caster, seen by others"
 		if(PETRIFICATION_TEXT_APPLY_SELF)
 			return "Petrified, seen by target"
+		if(PETRIFICATION_TEXT_SELF_APPLY_PUBLIC)
+			return "Self-petrification complete, seen by others"
+		if(PETRIFICATION_TEXT_SELF_APPLY_SELF)
+			return "Self-petrification complete, seen by self"
 		if(PETRIFICATION_TEXT_EXAMINE)
 			return "Examine text"
 	return "[text_key]"
@@ -366,7 +391,7 @@
 
 /mob/living/verb/petrification()
 	set name = "Petrification"
-	set desc = "Petrify a nearby player."
+	set desc = "Petrify yourself or a nearby player."
 	set category = "Vore"
 
 	if(stat)
@@ -394,7 +419,7 @@
 		if(length(get_petrification_reversal_targets()))
 			choices += "Reverse"
 		choices += "Cancel"
-		var/petrification_prompt = "Petrify a nearby player using your current petrification options?"
+		var/petrification_prompt = "Petrify yourself or a nearby player using your current petrification options?"
 		if(petrification_permanent)
 			petrification_prompt += "\n\nWarning: " + PETRIFICATION_PERMANENT_WARNING
 		var/choice = tgui_alert(src, petrification_prompt, "Petrification", choices)
@@ -411,14 +436,27 @@
 
 	var/list/potential_targets = get_petrification_targets()
 	if(!length(potential_targets))
-		to_chat(src, span_warning("There are no player targets in range."))
+		to_chat(src, span_warning("There are no valid petrification targets in range."))
 		return
 
-	var/mob/living/carbon/human/target = tgui_input_list(src, "Who would you like to petrify?", "Petrification Target", potential_targets)
+	var/list/target_choices = list()
+	var/list/target_by_choice = list()
+	var/target_number = 1
+	for(var/mob/living/carbon/human/potential_target as anything in potential_targets)
+		var/target_label = "[target_number]. [potential_target][potential_target == src ? " (YOU)" : ""]"
+		target_choices += target_label
+		target_by_choice[target_label] = potential_target
+		target_number++
+	var/target_choice = tgui_input_list(src, "Who would you like to petrify?", "Petrification Target", target_choices)
+	var/mob/living/carbon/human/target = target_by_choice[target_choice]
 	if(!target)
 		return
 	if(!can_petrify_target(target, TRUE))
 		return
+	if(target == src && petrification_permanent)
+		var/self_confirm = tgui_alert(src, "WARNING: This is permanent self-petrification. You will not be able to turn yourself back with Reverse.\n\nContinue?", "Permanent Self-Petrification", list("Continue", "Cancel"))
+		if(self_confirm != "Continue")
+			return
 	if(!request_petrification_consent(target))
 		return
 
@@ -427,12 +465,19 @@
 	var/cast_permanent = petrification_permanent
 	var/cast_sensitive = petrification_sensitive
 	var/list/cast_texts = sanitize_petrification_texts(petrification_texts)
+	var/self_petrification = (target == src)
 
-	visible_message(span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_PUBLIC], src, target, cast_material)), span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_SELF], src, target, cast_material)))
-	to_chat(target, span_userdanger(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_TARGET], src, target, cast_material)))
+	if(self_petrification)
+		visible_message(span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_SELF_CAST_PUBLIC], src, target, cast_material)), span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_SELF_CAST_SELF], src, target, cast_material)))
+	else
+		visible_message(span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_PUBLIC], src, target, cast_material)), span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_SELF], src, target, cast_material)))
+		to_chat(target, span_userdanger(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_TARGET], src, target, cast_material)))
 	if(!do_after(src, PETRIFICATION_CAST_TIME, needhand = FALSE, target = target, progress = TRUE, extra_checks = CALLBACK(src, PROC_REF(can_continue_petrification_cast), target)))
-		to_chat(src, span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_BREAK_SELF], src, target, cast_material)))
-		if(!QDELETED(target))
+		if(self_petrification)
+			to_chat(src, span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_SELF_CAST_BREAK_SELF], src, target, cast_material)))
+		else
+			to_chat(src, span_warning(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_BREAK_SELF], src, target, cast_material)))
+		if(!self_petrification && !QDELETED(target))
 			to_chat(target, span_notice(petrification_format_message(cast_texts[PETRIFICATION_TEXT_CAST_BREAK_TARGET], src, target, cast_material)))
 		return
 	if(!can_petrify_target(target, TRUE))
@@ -466,9 +511,27 @@
 	var/datum/status_effect/petrified/petrified = has_status_effect(STATUS_EFFECT_PETRIFIED)
 	if(!petrified)
 		return
-	var/list/choices = list("Surrender", "Cancel")
-	var/choice = tgui_alert(src, "You are petrified. Surrender will separate your spirit from your petrified body. You may use Afterlife to return to the lobby; if you return as this character, the abandoned statue will dissolve.", "Petrification", choices)
-	if(choice == "Surrender")
+	var/list/choices = list()
+	var/can_reverse_self = can_reverse_petrification(src, FALSE)
+	if(can_reverse_self)
+		choices += "Reverse"
+	choices += list("Surrender", "Cancel")
+	var/prompt = "You are petrified."
+	if(can_reverse_self)
+		prompt += " Reverse will restore your body."
+	prompt += " Surrender will separate your spirit from your petrified body. You may use Afterlife to return to the lobby; if you return as this character, the abandoned statue will dissolve."
+	var/choice = tgui_alert(src, prompt, "Petrification", choices)
+	if(choice == "Reverse")
+		if(!can_reverse_petrification(src, TRUE))
+			return
+		var/confirm_reverse = tgui_alert(src, "Reverse your petrification?", "Reverse Petrification", list("Yes", "No"))
+		if(confirm_reverse != "Yes")
+			return
+		remove_status_effect(STATUS_EFFECT_PETRIFIED)
+		visible_message(span_notice("[src]'s petrified body softens back into living flesh."), span_notice("My petrified body softens back into living flesh."))
+		log_game("[key_name(src)] reversed their own petrification.")
+		message_admins("[key_name_admin(src)] reversed their own petrification.")
+	else if(choice == "Surrender")
 		var/confirm = tgui_alert(src, "Are you sure you want to surrender your petrified body and become a ghost?", "Confirm Surrender", list("Yes", "No"))
 		if(confirm != "Yes")
 			return
@@ -476,8 +539,7 @@
 
 /mob/living/proc/request_petrification_consent(mob/living/carbon/human/target)
 	if(target == src)
-		to_chat(src, span_warning("I can't petrify myself."))
-		return FALSE
+		return TRUE
 	if(!target?.client)
 		to_chat(src, span_warning("[target] is not able to consent right now."))
 		return FALSE
@@ -705,6 +767,11 @@
 
 /mob/living/proc/get_petrification_targets()
 	var/list/potential_targets = list()
+	var/mob/living/carbon/human/self_target
+	if(istype(src, /mob/living/carbon/human))
+		self_target = src
+	if(self_target && can_petrify_target(self_target, FALSE))
+		potential_targets |= self_target
 	for(var/mob/living/carbon/human/H in view(1, src))
 		if(can_petrify_target(H, FALSE))
 			potential_targets |= H
@@ -759,6 +826,37 @@
 		return FALSE
 	return TRUE
 
+/mob/living/carbon/human/proc/can_stash_petrified_torso()
+	if(!has_status_effect(STATUS_EFFECT_PETRIFIED))
+		return FALSE
+	if(!get_bodypart_shallow(BODY_ZONE_CHEST))
+		return FALSE
+	var/static/list/blocking_bodyparts = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+	for(var/body_zone in blocking_bodyparts)
+		if(get_bodypart_shallow(body_zone))
+			return FALSE
+	return TRUE
+
+/mob/living/get_pushed_pulled_atom()
+	var/mob/living/carbon/human/target = pulling
+	if(!istype(target) || QDELETED(target) || !target.has_status_effect(STATUS_EFFECT_PETRIFIED))
+		return ..()
+	if(target.pulledby != src)
+		return ..()
+	var/has_grab = FALSE
+	for(var/obj/item/held_item as anything in held_items)
+		if(!istype(held_item, /obj/item/grabbing))
+			continue
+		var/obj/item/grabbing/held_grab = held_item
+		if(held_grab.grabbed != target || held_grab.grabbee != src)
+			continue
+		if(target.grabbedby && (held_grab in target.grabbedby))
+			has_grab = TRUE
+			break
+	if(!has_grab)
+		return ..()
+	return target
+
 /mob/living/proc/set_grabbed_petrified_posture(obj/item/grabbing/grab, stand_target)
 	if(!can_use_petrified_posture_grab(grab, TRUE))
 		return
@@ -793,10 +891,6 @@
 	if(!target)
 		return FALSE
 	if(!istype(target, /mob/living/carbon/human))
-		return FALSE
-	if(target == src)
-		if(notify)
-			to_chat(src, span_warning("I can't petrify myself."))
 		return FALSE
 	if(!target.client)
 		return FALSE
@@ -1367,15 +1461,24 @@
 	owner.update_mobility()
 	owner.clear_petrified_active_ability()
 	owner.hide_petrified_action_buttons()
-	var/self_message = petrification_format_message(flavour_texts[PETRIFICATION_TEXT_APPLY_SELF], petrifier, owner, material)
-	if(petrifier && petrifier != owner)
+	var/self_petrification = (petrifier == owner)
+	var/self_message_template = flavour_texts[PETRIFICATION_TEXT_APPLY_SELF]
+	if(self_petrification)
+		self_message_template = flavour_texts[PETRIFICATION_TEXT_SELF_APPLY_SELF]
+	var/self_message = petrification_format_message(self_message_template, petrifier, owner, material)
+	if(self_petrification)
+		owner.visible_message(span_warning(petrification_format_message(flavour_texts[PETRIFICATION_TEXT_SELF_APPLY_PUBLIC], petrifier, owner, material)), span_userdanger(self_message))
+	else if(petrifier)
 		owner.visible_message(span_warning(petrification_format_message(flavour_texts[PETRIFICATION_TEXT_APPLY_PUBLIC_PETRIFIER], petrifier, owner, material)), span_userdanger(self_message))
 	else
 		owner.visible_message(span_warning(petrification_format_message(flavour_texts[PETRIFICATION_TEXT_APPLY_PUBLIC], petrifier, owner, material)), span_userdanger(self_message))
 	var/petrified_notice = "You have been petrified and will no longer be able to move, speak, or take any meaningful actions until you have been restored to your former self."
 	if(permanent)
 		petrified_notice = "You have been permanently petrified and will no longer be able to move, speak, or take any meaningful actions. " + PETRIFICATION_PERMANENT_WARNING
-	petrified_notice += " You may choose to 'Surrender' by clicking the Petrification option in the Vore panel to leave your body behind and become a ghost."
+	if(self_petrification && !permanent)
+		petrified_notice += " You may click Petrification in the Vore panel and choose Reverse to restore yourself, or choose Surrender to leave your body behind and become a ghost."
+	else
+		petrified_notice += " You may choose to 'Surrender' by clicking the Petrification option in the Vore panel to leave your body behind and become a ghost."
 	to_chat(owner, span_notice(petrified_notice))
 
 /datum/status_effect/petrified/tick()
