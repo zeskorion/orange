@@ -43,6 +43,7 @@
 		/datum/sprite_accessory/wings/large/harpyfolded,
 		/datum/sprite_accessory/wings/large/harpyowl,
 		/datum/sprite_accessory/wings/large/harpybat_alt,
+		/datum/sprite_accessory/wings/ochre/speckled_tricolor, // OV Add
 		)
 
 /datum/customizer/organ/wings/moth

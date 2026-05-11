@@ -19,3 +19,9 @@
 	color_keys = 2
 	color_key_names = list("One","Two")
 	relevant_layers = list(BODY_FRONT_LAYER)
+
+/datum/sprite_accessory/wings/ochre/speckled_tricolor
+	icon_state = "shadow_tricolor"
+	name = "large speckled leather wings, tricolor, sparkling"
+	color_keys = 3
+	color_key_names = list("Outline","Membrane","Sparkles")
