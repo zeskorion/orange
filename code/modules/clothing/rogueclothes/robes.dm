@@ -3,6 +3,7 @@
 	name = "robe"
 	desc = ""
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	armor = ARMOR_CLOTHING
 	icon_state = "white_robe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -12,8 +13,24 @@
 	color = "#7c6d5c"
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
-	experimental_inhand = FALSE
-	sellprice = 10
+	experimental_inhand = TRUE
+	var/storage = TRUE
+
+	grid_width = 64
+	grid_height = 64
+
+/obj/item/clothing/suit/roguetown/shirt/robe/ComponentInitialize()
+	. = ..()
+	if(storage)
+		AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/suit/roguetown/shirt/robe/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
 
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy
 	name = "foreboding robes"
@@ -25,6 +42,7 @@
 	boobed = null
 	item_state = "warlock"
 	icon_state = "warlock"
+	storage = FALSE
 
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich
 	name = "ominous robes"
@@ -38,6 +56,7 @@
 	allowed_race = ALL_RACES_TYPES
 	item_state = "ewarlock"
 	icon_state = "ewarlock"
+	storage = FALSE
 
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
@@ -174,7 +193,8 @@
 	resistance_flags = FIRE_PROOF // astratan
 	armor = ARMOR_PADDED	//Equal to gamby
 	color = null
-	sellprice = 25
+	storage = FALSE
+	sellprice = 25 //CC edit
 
 /obj/item/clothing/suit/roguetown/shirt/robe/priest/Initialize()
 	. = ..()
@@ -207,7 +227,8 @@
 	armor = ARMOR_PADDED	//Equal to a padded gambeson, like before.
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	sellprice = 15
+	storage = FALSE
+	sellprice = 15 //CC edit
 
 //This is for templars/psydonites. Gives a boon for wearing it to counter-act giving up plate and such.
 /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
@@ -363,7 +384,8 @@
 	icon_state = "desertgown"
 	item_state = "desertgown"
 	color = null
-	sellprice = 15
+	storage = FALSE
+	sellprice = 15 //CC edit
 
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	name = "pointfex's qaba"
@@ -374,7 +396,8 @@
 	color = null
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
-	sellprice = 15
+	storage = FALSE
+	sellprice = 15 //CC edit
 
 /obj/item/clothing/suit/roguetown/shirt/robe/feld
 	name = "feldsher's robe"
