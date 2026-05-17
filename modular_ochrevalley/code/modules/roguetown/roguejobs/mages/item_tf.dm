@@ -129,12 +129,19 @@
 	force = 1
 	w_class = WEIGHT_CLASS_TINY
 	var/rune_to_scribe = /obj/effect/decal/cleanable/roguerune/arcyne/item_tf
+	var/last_use = 0
+	var/cooldown = 20 MINUTES
 
 /obj/item/item_tf_chalk/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Use this chalk on itself to draw an item TF room where you are standing. This uses up the chalk.")
+	. += span_info("Use this chalk on itself to draw an item TF room where you are standing. This chalk can only be used once every twenty minutes.")
 
 /obj/item/item_tf_chalk/attack_self(mob/living/carbon/human/user)
+	if(last_use)
+		if(world.time < (last_use + cooldown))
+			to_chat(user, span_cult("You can not use this again so soon."))
+			return
+
 	var/turf/Turf = get_turf(user)
 	var/structures_in_way = check_for_structures_and_closed_turfs(loc, rune_to_scribe)
 	if(structures_in_way == TRUE)
@@ -148,15 +155,13 @@
 	user.visible_message(span_notice("\The [user] begins to drag [user.p_their()] [name] over \the [Turf], inscribing intricate symbols and sigils inside a circle."), span_notice("I start to drag my [name] over \the [Turf], inscribing intricate symbols and sigils on a circle."))
 	playsound(loc, 'sound/magic/chalkdraw.ogg', 100, TRUE)
 
+	to_chat(user, span_warning("Note: This is a kink tool, you should take care to use it in private, respect bystander consent and not include unwitting players in your kinks."))
+
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(span_warning("[user] draws an arcyne rune with [user.p_their()] [name]!"), \
 		span_notice("I finish tracing ornate symbols and circles with my [name], leaving behind a ritual rune."))
 		new rune_to_scribe(Turf)
-	else
-		return
-
-	user.dropItemToGround(src)
-	qdel(src)
+		last_use = world.time
 
 /obj/item/item_tf_chalk/proc/check_for_structures_and_closed_turfs(loc, var/obj/effect/decal/cleanable/roguerune/rune_to_scribe)
 	for(var/turf/T in range(loc, rune_to_scribe.runesize))
