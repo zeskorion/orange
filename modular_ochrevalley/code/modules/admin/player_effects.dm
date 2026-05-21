@@ -530,6 +530,7 @@
 			if(!istype(Tar))
 				return
 			Tar.fully_heal(admin_revive = TRUE)
+			Tar.admin_remove_petrification()
 
 		if("revive")
 			var/mob/living/carbon/Tar = target

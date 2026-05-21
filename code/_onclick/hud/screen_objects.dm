@@ -392,7 +392,13 @@
 	if(ismob(usr))
 		var/mob/M = usr
 		M.playsound_local(M, 'sound/misc/click.ogg', 100)
-	if(usr.stat == CONSCIOUS)
+	// OV Edit Start
+	var/petrified_user = FALSE
+	if(isliving(usr))
+		var/mob/living/L = usr
+		petrified_user = L.IsPetrified()
+	if(usr.stat == CONSCIOUS && !petrified_user)
+	// OV Edit End
 		usr.dropItemToGround(usr.get_active_held_item())
 
 /atom/movable/screen/act_intent
@@ -873,6 +879,11 @@
 	hud.mymob.playsound_local(hud.mymob, 'sound/misc/click.ogg', 100)
 	if(isliving(hud?.mymob))
 		var/mob/living/L = hud.mymob
+		// OV Edit Start
+		if(L.IsPetrified())
+			to_chat(L, span_warning("I can't move."))
+			return
+		// OV Edit End
 		if(L.eyesclosed)
 			L.eyesclosed = 0
 			L.cure_blind("eyelids")
@@ -959,6 +970,11 @@
 /atom/movable/screen/rest/Click()
 	if(isliving(usr))
 		var/mob/living/L = usr
+		// OV Edit Start
+		if(L.IsPetrified())
+			to_chat(L, span_warning("I can't move."))
+			return
+		// OV Edit End
 		L.lay_down()
 
 /atom/movable/screen/rest/update_icon_state()
@@ -982,6 +998,11 @@
 
 	if(isliving(usr))
 		var/mob/living/L = usr
+		// OV Edit Start
+		if(L.IsPetrified())
+			to_chat(L, span_warning("I can't move."))
+			return
+		// OV Edit End
 		if(paramslist["right"])
 			L.look_up()
 		else
@@ -998,6 +1019,11 @@
 
 	if(isliving(usr))
 		var/mob/living/L = usr
+		// OV Edit Start
+		if(L.IsPetrified())
+			to_chat(L, span_warning("I can't move."))
+			return
+		// OV Edit End
 		if(paramslist["right"])
 			var/turf/O
 			for(var/turf/T in range(1, L))

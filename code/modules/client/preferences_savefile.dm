@@ -622,6 +622,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
 	S["taur_color"]			>> taur_color
+	// OV Edit Start
+	S["petrification_presets"] >> petrification_presets
+	S["petrification_selected_name"] >> petrification_selected_name
+	S["petrification_selected_color"] >> petrification_selected_color
+	S["petrification_permanent"] >> petrification_permanent
+	S["petrification_sensitive"] >> petrification_sensitive
+	petrification_permanent = petrification_permanent ? TRUE : FALSE
+	petrification_sensitive = petrification_sensitive ? TRUE : FALSE
+	sanitize_petrification_presets()
+	// OV Edit End
 
 /datum/preferences/proc/_load_familiar_prefs(S)
 	S["familiar_names"]					>> familiar_prefs.familiar_names
@@ -947,6 +957,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["highlight_color"]		, highlight_color)
 	WRITE_FILE(S["taur_type"]			, taur_type)
 	WRITE_FILE(S["taur_color"]			, taur_color)
+	// OV Edit Start
+	sanitize_petrification_presets()
+	WRITE_FILE(S["petrification_presets"], petrification_presets)
+	WRITE_FILE(S["petrification_selected_name"], petrification_selected_name)
+	WRITE_FILE(S["petrification_selected_color"], petrification_selected_color)
+	var/petrification_permanent_saved = petrification_permanent ? TRUE : FALSE
+	var/petrification_sensitive_saved = petrification_sensitive ? TRUE : FALSE
+	WRITE_FILE(S["petrification_permanent"], petrification_permanent_saved)
+	WRITE_FILE(S["petrification_sensitive"], petrification_sensitive_saved)
+	// OV Edit End
 	WRITE_FILE(S["culinary_preferences"], culinary_preferences)
 	WRITE_FILE(S["topjob"]				, topjob)
 

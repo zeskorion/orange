@@ -215,7 +215,9 @@
 		next_attack_msg.Cut()
 		affecting.bodypart_attacked_by(user.used_intent.blade_class, statforce, crit_message = TRUE, weapon = I)
 		apply_damage(statforce, I.damtype, affecting)
-		if(I.damtype == BRUTE && affecting.status == BODYPART_ORGANIC)
+		// OV Edit Start
+		if(I.damtype == BRUTE && affecting.status == BODYPART_ORGANIC && !IsPetrified())
+		// OV Edit End
 			if(prob(statforce))
 				I.add_mob_blood(src)
 				user.update_inv_hands()
@@ -488,11 +490,12 @@
 /mob/living/carbon/can_hear()
 	. = FALSE
 	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
-	if(isdullahan(src))
-		var/mob/living/carbon/human/user = src
-		var/datum/species/dullahan/dullahan = user.dna.species
-		var/obj/item/bodypart/head/dullahan/head = dullahan.my_head
-		if(dullahan.headless && head.ears)
-			ears = head.ears
+	//OV Edit Start
+	var/atom/movable/hearing_atom = get_hearing_atom()
+	if(istype(hearing_atom, /obj/item/bodypart/head))
+		var/obj/item/bodypart/head/hearing_head = hearing_atom
+		if(hearing_head.ears)
+			ears = hearing_head.ears
+	//OV Edit End
 	if((istype(ears) && !ears.deaf) || (src.stat == DEAD)) // 2nd check so you can hear messages when beheaded
 		. = TRUE

@@ -404,6 +404,11 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 	SSjob.AssignRole(src, rank, 1)
 
+	// OV Edit Start
+	var/surrendered_petrified_ckey = ckey(key)
+	var/surrendered_petrified_character_name = client?.prefs?.real_name
+	// OV Edit End
+
 	var/mob/living/character = create_character(TRUE)	//creates the human and transfers vars and mind
 
 	character.islatejoin = TRUE
@@ -412,6 +417,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
 		character = equip
+
+	// OV Edit Start
+	cleanup_surrendered_petrified_body(surrendered_petrified_ckey, surrendered_petrified_character_name, character)
+	// OV Edit End
 
 	var/datum/job/job = SSjob.GetJob(rank)
 

@@ -194,6 +194,10 @@
 		adjust_bloodpool(BLOODPOL_REGEN, FALSE)
 
 /mob/living/proc/get_bleed_rate()
+	// OV Edit Start
+	if(IsPetrified())
+		return FALSE
+	// OV Edit End
 	if (!blood_volume)
 		return FALSE //the blood bag is empty, brother.
 	var/bleed_rate = 0
@@ -205,6 +209,10 @@
 	return bleed_rate
 
 /mob/living/carbon/get_bleed_rate()
+	// OV Edit Start
+	if(IsPetrified())
+		return 0
+	// OV Edit End
 	var/bleed_rate = 0
 	if (!blood_volume) // if we have no blood, we can't rightly bleed, can we?
 		return 0
@@ -216,6 +224,10 @@
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
+	// OV Edit Start
+	if(IsPetrified())
+		return FALSE
+	// OV Edit End
 	if(!blood_volume)
 		return FALSE
 	if(!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
@@ -256,6 +268,10 @@
 	return TRUE
 
 /mob/living/carbon/human/bleed(amt)
+	// OV Edit Start
+	if(IsPetrified())
+		return FALSE
+	// OV Edit End
 	amt *= physiology.bleed_mod
 	if(!(NOBLOOD in dna.species.species_traits))
 		return ..()
@@ -351,6 +367,10 @@
 		return /datum/reagent/blood
 
 /mob/living/carbon/human/get_blood_id()
+	// OV Edit Start
+	if(IsPetrified())
+		return
+	// OV Edit End
 	if(HAS_TRAIT(src, TRAIT_HUSK))
 		return
 	if(dna?.species)
@@ -459,11 +479,19 @@
 
 //OV edit
 /mob/living/carbon/human/add_drip_floor(turf/T, amt)
+	// OV Edit Start
+	if(IsPetrified())
+		return
+	// OV Edit End
 	if(!(NOBLOOD in dna.species.species_traits) && !(INVISBLOOD in dna.species.species_traits))
 		..()
 //OV edit end
 
 /mob/living/carbon/human/add_splatter_floor(turf/T, small_drip)
+	// OV Edit Start
+	if(IsPetrified())
+		return
+	// OV Edit End
 	if(!(NOBLOOD in dna.species.species_traits) && !(INVISBLOOD in dna.species.species_traits)) //OV EDIT
 		..()
 
