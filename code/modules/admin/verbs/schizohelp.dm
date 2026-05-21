@@ -13,18 +13,18 @@ GLOBAL_LIST_EMPTY_TYPED(schizohelps, /datum/schizohelp)
 	to_chat(src, span_info("<i>You ask the mentors...</i>\n[msg]"))
 	var/datum/schizohelp/ticket = new(src)
 	var/display_name = get_schizo_name()
-	var/message = span_info("<i>[display_name] meditates...</i>\n[msg]")
-	var/message_admins = span_info("<i>[display_name] ([key || "NO KEY"]) [ADMIN_FLW(src)] [ADMIN_SM(src)] meditates...</i>\n[msg]")
+	var/message = span_smallgreen("<i>[display_name] meditates...</i>\n[msg]") // OV Edit: Use span_smallgreen
+	var/message_admins = span_smallgreen("<i>[display_name] ([key || "NO KEY"]) [ADMIN_FLW(src)] [ADMIN_SM(src)] meditates...</i>\n[msg]") // OV Edit: Use span_smallgreen
 	for(var/client/voice in (GLOB.clients - client))
 		if(!(voice.prefs.toggles & SCHIZO_VOICE) || check_rights_for(voice, R_ADMIN))
 			continue
-		var/answer_button = span_info("(<a href='?src=[voice];schizohelp=[REF(ticket)];'>ANSWER</a>)")
+		var/answer_button = span_smallgreen("(<a href='?src=[voice];schizohelp=[REF(ticket)];'>ANSWER</a>)") // OV Edit: Use span_smallgreen span instead of info
 		to_chat(voice, "[message] [answer_button]")
 
 	for(var/client/admin in GLOB.admins)
 		if(!(admin.prefs.chat_toggles & CHAT_PRAYER))
 			continue
-		var/answer_button = span_info("(<a href='?src=[admin];schizohelp=[REF(ticket)];'>ANSWER</a>)")
+		var/answer_button = span_smallgreen("(<a href='?src=[admin];schizohelp=[REF(ticket)];'>ANSWER</a>)") // OV Edit: Use span_smallgreen span instead of info
 		to_chat(admin, "[message_admins] [answer_button]")
 	COOLDOWN_START(src, schizohelp_cooldown, 1 MINUTES)
 
