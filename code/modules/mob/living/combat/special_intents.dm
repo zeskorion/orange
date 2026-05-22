@@ -122,6 +122,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(!isliving(user) && !ismovableatom(parent))
 		CRASH("Special intent called with non-living parent AND non-movable atom source.")
 
+	// OV Edit Start
+	if(user?.IsPetrified())
+		to_chat(user, span_warning("I can't move while petrified."))
+		return
+	// OV Edit End
+
 	howner = user
 	iparent = parent
 
@@ -137,6 +143,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///Main pipeline. Note that _delay() calls post_delay() after a timer.
 /datum/special_intent/proc/process_attack()
 	SHOULD_CALL_PARENT(TRUE)
+
+	// OV Edit Start
+	if(howner?.IsPetrified())
+		cancelled = TRUE
+		return
+	// OV Edit End
 
 	if(!_do_after())
 		return
@@ -1287,4 +1299,3 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.update_a_intents()
 	howner.regenerate_icons()
 	playsound(W.loc, 'sound/foley/waterenter.ogg', 100)
-

@@ -62,7 +62,9 @@
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		return TRUE
-	if(m_intent == MOVE_INTENT_RUN && (mobility_flags & MOBILITY_STAND))
+	// OV Edit Start
+	if(!IsPetrified() && m_intent == MOVE_INTENT_RUN && (mobility_flags & MOBILITY_STAND))
+	// OV Edit End
 		if(isnull(buckled))
 			mind && mind.add_sleep_experience(/datum/skill/misc/athletics, (STAINT*0.02))
 	energy += added

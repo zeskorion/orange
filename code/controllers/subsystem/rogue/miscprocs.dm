@@ -173,6 +173,11 @@
 
 	if(!devotion)
 		return FALSE
+	// OV Edit Start
+	if(IsPetrified())
+		to_chat(src, span_warning("I can't do that while petrified."))
+		return FALSE
+	// OV Edit End
 
 	var/prayersesh = 0
 	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [istype(devotion.patron, /datum/patron/divine/undivided) ? "the Ten" : devotion.patron.name].")

@@ -1926,7 +1926,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		user.update_inv_hands()
 		playsound(get_turf(H), I.get_dismember_sound(), 80, TRUE)
 
-	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
+	// OV Edit Start
+	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)) && !H.IsPetrified()))
+	// OV Edit End
 		if(affecting.status == BODYPART_ORGANIC)
 			I.add_mob_blood(H)	//Make the weapon bloody, not the person.
 			user.update_inv_hands()

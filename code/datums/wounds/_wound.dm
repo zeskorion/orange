@@ -267,7 +267,9 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		deltimer(werewolf_infection_timer)
 		werewolf_infection_timer = null
 		werewolf_infect_attempt()
-	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
+	// OV Edit Start
+	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS) && !affected.IsPetrified())
+	// OV Edit End
 		affected.death()
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects

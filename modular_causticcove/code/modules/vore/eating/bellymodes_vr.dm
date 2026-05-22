@@ -301,6 +301,10 @@
 	return did_an_item
 
 /obj/belly/proc/handle_digestion_death(mob/living/M, instant = FALSE)
+	// OV Edit Start
+	if(M?.IsPetrified())
+		instant = TRUE
+	// OV Edit End
 	if(!instant && slow_digestion) // Gradual corpse digestion
 		if(!M.digestion_in_progress)
 			M.digestion_in_progress = TRUE

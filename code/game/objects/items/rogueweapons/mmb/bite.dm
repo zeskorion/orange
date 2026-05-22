@@ -12,6 +12,11 @@
 
 /datum/intent/bite/on_mmb(atom/target, mob/living/user, params)
 	var/datum/species/dullahan/user_species
+	// OV Edit Start
+	if(user.IsPetrified())
+		to_chat(user, span_warning("I can't move my jaw while petrified."))
+		return
+	// OV Edit End
 	if(user.stat == DEAD || user.stat == UNCONSCIOUS || user.stat == SOFT_CRIT)
 		to_chat(user, span_warning("I cannot move my jaw."))
 		return
@@ -161,6 +166,10 @@
 
 // Checking if the unit can bite
 /mob/living/carbon/human/proc/can_bite()
+	// OV Edit Start
+	if(IsPetrified())
+		return FALSE
+	// OV Edit End
 	// if(mouth?.muteinmouth && mouth?.type != /obj/item/grabbing/bite) // This one allows continued first biting rather than having to chew
 	if(mouth?.muteinmouth)
 		return FALSE
@@ -207,7 +216,9 @@
 		return
 	if(iscarbon(usr))
 		var/mob/living/carbon/C = usr
-		if(C != grabbee || C.incapacitated() || C.stat == DEAD)
+		// OV Edit Start
+		if(C != grabbee || C.incapacitated() || C.stat == DEAD || C.IsPetrified())
+		// OV Edit End
 			qdel(src)
 			return 1
 		if(modifiers["right"])
@@ -223,6 +234,12 @@
 ///Chewing after bite
 ///User is the one biting.
 /obj/item/grabbing/bite/proc/bitelimb(mob/living/carbon/human/user) //implies limb_grabbed and sublimb are things
+	// OV Edit Start
+	if(user.IsPetrified())
+		qdel(src)
+		return
+	// OV Edit End
+
 	var/datum/species/dullahan/user_species
 	if(isdullahan(user) && ishuman(grabbed))
 		var/mob/living/carbon/human/target_human = grabbed
@@ -300,6 +317,12 @@
 
 //this is for carbon mobs being drink only
 /obj/item/grabbing/bite/proc/drinklimb(mob/living/user) //implies limb_grabbed and sublimb are things
+	// OV Edit Start
+	if(user.IsPetrified())
+		qdel(src)
+		return
+	// OV Edit End
+
 	if(!user.Adjacent(grabbed))
 		qdel(src)
 		return
