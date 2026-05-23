@@ -3517,6 +3517,8 @@
 #include "modular_causticcove\code\modules\merporgans\butt.dm"
 #include "modular_causticcove\code\modules\mob\dead\new_player\sprite_accessory\ears.dm"
 #include "modular_causticcove\code\modules\mob\dead\new_player\sprite_accessory\horns.dm"
+#include "modular_ochrevalley\code\datums\loadout\fluff\loadout_accessories.dm"
+#include "modular_ochrevalley\code\datums\loadout\fluff\loadout_fluff.dm"
 #include "modular_causticcove\code\modules\mob\dead\new_player\sprite_accessory\snout.dm"
 #include "modular_causticcove\code\modules\mob\living\carbon\hobgoblin\hobgoblin.dm"
 #include "modular_causticcove\code\modules\mob\living\carbon\hobgoblin\ambush_config\ambush_hobgoblin.dm"
