@@ -41,7 +41,6 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/open_bounty_menu,
 	/client/proc/remove_bounty,
 	/client/proc/agevet_player,
-	// RATWOOD MODULAR START
 	/client/proc/bunker_bypass,
 	// RATWOOD MODULAR END
 	/client/proc/admin_manifest, //OV Add
@@ -117,6 +116,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/reenable_pq, //OV ADD
 	/client/proc/log_viewer_new, // OV Add: JSON Logging
 	/client/proc/item_gm_quest, //OV ADD
+	/client/proc/spawn_player, //OV ADD
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(
 	/client/proc/unban_panel,

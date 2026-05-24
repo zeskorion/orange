@@ -13,7 +13,8 @@
 	outfit = /datum/outfit/job/roguetown/steward
 	give_bank_account = TRUE
 	noble_income = 16
-	min_pq = 3 //OV EDIT
+	quest_claim_barred = TRUE
+	min_pq = 3 //Please don't give the vault keys to somebody that's going to lock themselves in on accident
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'

@@ -236,10 +236,11 @@
 				if(rotted)
 					for(var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/putrid in produced_steaks)
 						putrid.become_rotten()
+				var/datum/component/decal/blood/blood_decal = GetComponent(/datum/component/decal/blood)
 				// OV Edit Start
 				var/mob/living/blood_source = owner || original_owner
 				if(!blood_source?.IsPetrified())
-					new /obj/effect/decal/cleanable/blood/splatter(get_turf(src))
+					new /obj/effect/decal/cleanable/blood/splatter(get_turf(src), blood_decal?.blood_color || BLOOD_COLOR_RED)
 				// OV Edit End
 				user.mind.add_sleep_experience(/datum/skill/labor/butchering, amt2raise, FALSE)
 				qdel(src)

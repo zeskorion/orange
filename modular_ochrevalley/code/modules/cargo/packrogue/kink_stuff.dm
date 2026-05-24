@@ -107,3 +107,10 @@
 	contains = list(
 					/obj/item/portal_clothes
 				)
+
+/datum/supply_pack/rogue/kink_toy/item_tf_chalk
+	name = "Consolidation Chalk"
+	cost = 30
+	contains = list(
+					/obj/item/item_tf_chalk
+				)

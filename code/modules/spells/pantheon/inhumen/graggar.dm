@@ -129,7 +129,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/graggar/graggar_battlecry/cast(atom/cast_on) //OV EDIT - corrects path
+/datum/action/cooldown/spell/graggar/graggar_battlecry/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
