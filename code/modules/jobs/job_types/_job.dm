@@ -226,7 +226,7 @@
 
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
-/datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
+/datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE, announce = TRUE)//OV Edit
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_SPAWN, src)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
@@ -284,8 +284,8 @@
 			used_title = f_title
 		if((H.titles_pref == TITLES_N) && n_title) //OV Add: Gender Neutral Revamp
 			used_title = n_title //OV Add: Gender Neutral Revamp
-		//OV Add: Don't announce roleless players (Mostly for testing stuff)
-		if(used_title != "NOPE")
+		//OV Add: Don't announce roleless players (Mostly for testing stuff), also allow for unannounced entries
+		if(used_title != "NOPE" && announce)
 			scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 		//OV Add End
 
@@ -305,7 +305,7 @@
 	if(cmode_music)
 		H.cmode_music = cmode_music
 
-	if (!hidden_job)
+	if (!hidden_job && announce) //OV Edit: Don't add unannounced players to manifest
 		var/mob_name = H.real_name
 		var/mob_rank
 		if (obsfuscated_job)
