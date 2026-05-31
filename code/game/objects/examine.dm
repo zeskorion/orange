@@ -114,6 +114,8 @@
 			craft_lines += "Smelt: <b>[title_case(initial(smelted.name))]</b>"
 		if(length(craft_lines))
 			. += span_info(craft_lines.Join(" - "))
+	if(mob_possession) // OV Add
+		. += "<br>There is something unusually <b>ALIVE</b> about this." //OV ADD
 
 	. += span_info(weight_tier_examine_line())
 
