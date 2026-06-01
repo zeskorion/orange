@@ -16,7 +16,7 @@
 	"Garrison" = "",
 	"Church" = "",
 	"Burgher" = "",
-	"Azurian Trading Company:" = "",//OV Edit: Merchants
+	"Azurian Trading Company" = "",//OV Edit: Merchants
 	"Peasant" = "",
 	"Sidefolk" = "",
 	"Inquisition" = "",
