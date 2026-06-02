@@ -45,6 +45,7 @@
 	name = "arquebus rifle"
 	desc = "A gunpowder weapon that shoots an armor piercing metal ball."
 	icon = 'modular_causticcove/icons/weapons/arquebus.dmi'
+	dam_icon = 'icons/effects/item_damage64.dmi'
 	icon_state = "arquebus"
 	item_state = "arquebus"
 	dropshrink = 0.6 // OV Edit, I think this might look nicer.
@@ -78,6 +79,8 @@
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/bronze
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK // You need to be able to hit it to repair it. Adding other rogueweapon tags too.
+	max_integrity = 250
+	integrity_failure = 0.2
 	bolt_type = BOLT_TYPE_NO_BOLT
 	casing_ejector = FALSE
 	pickup_sound = 'modular_causticcove/sound/sheath_sounds/draw_from_holster.ogg'
@@ -293,6 +296,7 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/pistol
 	name = "arquebus pistol"
 	icon = 'icons/roguetown/weapons/32.dmi'
+	dam_icon = 'icons/effects/item_damage32.dmi'
 	icon_state = "pistol"
 	item_state = "pistol"
 	force_wielded = null
@@ -308,6 +312,7 @@
 	unequip_delay_self = 1.5 SECONDS
 	inv_storage_delay = 2 SECONDS
 	walking_stick = FALSE
+	max_integrity = 80
 	slot_flags = ITEM_SLOT_HIP
 	range = 10
 	onehanded = TRUE
