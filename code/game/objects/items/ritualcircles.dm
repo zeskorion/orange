@@ -328,7 +328,7 @@
 		if(target.show_redflash())
 			target.flash_fullscreen("redflash3")
 		//Caustic Edit End
-		target.emote("agony")
+		target.emote("superagony")
 		target.Stun(200)
 		target.Knockdown(200)
 		to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -344,7 +344,7 @@
 		return FALSE
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes enveloped in rot."))
 	spawn(20)
@@ -690,7 +690,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
 	loc.visible_message(span_cult("Ethereal tendrils emerge from the rune, wrapping around [target]'s body. Their form shifts and warps as dream-stuff solidifies into armor."))
 	spawn(20)
@@ -1427,7 +1427,7 @@
 		return FALSE
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes enveloped in calming aura."))
 	spawn(20)
@@ -1562,7 +1562,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
 	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
@@ -1707,7 +1707,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, before straps and buckles secure themselves over them.")) //caustic edit- changing the text here to not be fleshwelded
 	spawn(20)
@@ -1779,7 +1779,7 @@
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
 
 	to_chat(victim, span_userdanger("ASTRATA WEEPS!"))
-	victim.emote("Agony")
+	victim.emote("superagony")
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_GENERIC)
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_VIRTUE)
 	ADD_TRAIT(victim, TRAIT_DEFILED_NOBLE, TRAIT_GENERIC)
@@ -1917,7 +1917,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, motive and metals swirl into armor, snug around their form!"))
 	spawn(20)
@@ -1963,7 +1963,7 @@
 	victim.Knockdown(60)
 	to_chat(victim, span_userdanger("UNIMAGINABLE PAIN!"))
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
-	victim.emote("Agony")
+	victim.emote("superagony")
 	victim.visible_message(
 		span_danger("[victim] writhes in unimaginable pain!"),
 		span_userdanger("IT HURTS! IT BURNS!")
