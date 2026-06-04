@@ -44,6 +44,8 @@
 	
 	if(!quest_mobs.len)
 		return
+
+	var/crimes = tgui_input_text(user, "Whereof they stand accused of:", "Message Text")
 	
 	var/ledger_or_floor = tgui_input_list(user, "Spawn in a ledger or on the floor?", "Scroll", list("Ledger", "Floor", "Cancel"))
 	if(!ledger_or_floor || (ledger_or_floor == "Cancel"))
@@ -57,15 +59,17 @@
 	
 	var/spawn_loc = get_turf(user)
 
-	SSquestpool.gm_kill_quest(quest_title, reward, bands_of_threat, fellowship_size, where_to_spawn, quest_mobs, ledger_or_floor, spawn_loc)
+	SSquestpool.gm_kill_quest(quest_title, reward, bands_of_threat, fellowship_size, where_to_spawn, quest_mobs, ledger_or_floor, spawn_loc, crimes)
 
-/datum/controller/subsystem/questpool/proc/gm_kill_quest(quest_title, reward, bands_of_threat, fellowship_size, datum/threat_region/where_to_spawn, list/quest_mobs, ledger_or_floor, spawn_loc)
+/datum/controller/subsystem/questpool/proc/gm_kill_quest(quest_title, reward, bands_of_threat, fellowship_size, datum/threat_region/where_to_spawn, list/quest_mobs, ledger_or_floor, spawn_loc, crimes)
 	var/datum/quest/kill/generated/Q = new /datum/quest/kill/generated()
 	if(!Q)
 		return null
 	Q.quest_mobs = quest_mobs
 	Q.threat_bands_cleared = bands_of_threat
 	Q.title = quest_title
+	if(crimes)
+		Q.rolled_crimes = list(crimes)
 	Q.required_fellowship_size = fellowship_size
 	Q.quest_difficulty = "Special"
 	Q.created_at = world.time
