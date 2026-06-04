@@ -3658,6 +3658,7 @@
 #include "modular_causticcove\code\modules\roguecrafting\leather.dm"
 #include "modular_causticcove\code\modules\size_scaling\helperfunctions.dm"
 #include "modular_causticcove\code\modules\size_scaling\mobholder.dm"
+#include "modular_ochrevalley\code\game\items\taur_potion.dm"
 #include "modular_ochrevalley\code\modules\admin\spawn_player.dm"
 #include "modular_ochrevalley\code\game\rotational_objects\rotation_shaft.dm"
 #include "modular_ochrevalley\code\modules\admin\sun_strike_save.dm"
