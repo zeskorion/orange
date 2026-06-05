@@ -1,5 +1,5 @@
 //These are GM spawn only mobs for events, designed to be proper boss enemies
-
+GLOBAL_LIST_INIT(psydonite_aggro, world.file2list("modular_ochrevalley/strings/rt/psydonhereticlines.txt"))
 
 //SEA RAIDER
 /mob/living/carbon/human/species/human/northern/searaider_legendary
@@ -328,6 +328,113 @@
 	special = /datum/special_intent/upper_cut
 	max_blade_int = 8000
 	max_integrity = 8000
+
+//SEA RAIDER
+/mob/living/carbon/human/species/human/northern/psydonite_heretic_legendary
+	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
+	faction = list(FACTION_HERETICAL_FIEND)
+	ambushable = FALSE
+	dodgetime = 30
+	blood_toll_bucket = STATS_KILLED_HIGHWAYMEN
+
+/mob/living/carbon/human/species/human/northern/psydonite_heretic_legendary/Initialize()
+	. = ..()
+	set_species(/datum/species/human/northern)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/human/northern/psydonite_heretic_legendary/after_creation()
+	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.psydonite_aggro, TRUE)
+	job = "Psydonite Heretic"
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_PSYDONITE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_PSYDONIAN_GRIT, TRAIT_GENERIC)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/psydonite_heretic_legendary)
+	gender = pick(MALE, FEMALE)
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	var/hairf = pick(list(/datum/sprite_accessory/hair/head/bob,
+						/datum/sprite_accessory/hair/head/ponytail3))
+	var/hairm = pick(list(/datum/sprite_accessory/hair/head/bald,
+						/datum/sprite_accessory/hair/head/monk))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/shaved))
+	head.sellprice = 30 // 50% More than gobbo
+
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+
+	if(prob(50))
+		new_hair.accessory_colors = "#C1A287"
+		new_hair.hair_color = "#C1A287"
+		new_facial.accessory_colors = "#C1A287"
+		new_facial.hair_color = "#C1A287"
+		hair_color = "#C1A287"
+	else
+		new_hair.accessory_colors = "#A56B3D"
+		new_hair.hair_color = "#A56B3D"
+		new_facial.accessory_colors = "#A56B3D"
+		new_facial.hair_color = "#A56B3D"
+		hair_color = "#A56B3D"
+
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+
+	if(organ_eyes)
+		organ_eyes.eye_color = "#336699"
+		organ_eyes.accessory_colors = "#336699#336699"
+
+	update_hair()
+	update_body()
+
+
+/datum/outfit/job/roguetown/human/species/human/northern/psydonite_heretic_legendary/pre_equip(mob/living/carbon/human/H)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	cloak = /obj/item/clothing/neck/roguetown/psicross/weeping
+	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
+	if(prob(50))
+		r_hand = /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
+	else
+		r_hand =  /obj/item/rogueweapon/mace/goden/psymace
+		l_hand = /obj/item/rogueweapon/shield/tower/metal/psy
+
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel
+	H.STASPD = 20
+	H.STACON = 20
+	H.STAWIL = 20
+	H.STAPER = 20
+	H.STAINT = 20
+	H.STASTR = 20
+	H.adjust_skillrank(/datum/skill/combat/polearms, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 
 //VOLF
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/legendary
