@@ -1,7 +1,5 @@
-/mob //Code taken directly from the "Bottomless" Vice from Caustic Cove, modified for linear progression rather than exponential
-	var/maxnutrition = NUTRITION_LEVEL_FULL
-/datum/charflaw/ravenous 
-//The Vice itself
+/Code taken directly from the "Bottomless" Vice from Caustic Cove, modified for linear progression rather than exponential
+/datum/charflaw/ravenous //The Vice itself
 	name = "Ravenous"
 	desc = "No matter how much I eat, I still feel empty..."
 	var/last_check = 0
