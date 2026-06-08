@@ -168,7 +168,7 @@ GLOBAL_LIST_INIT(capstone_pool, list(
 			if(user.show_redflash())
 				user.flash_fullscreen("redflash3")
 			//Caustic Edit End
-			user.emote("agony", forced = TRUE)
+			user.emote("superagony", forced = TRUE)
 			sleep(20)
 			to_chat(user, span_userdanger("THEW ORLD is not real. my BREATH IS gone. my heart barely baeats. my veins are empty."))
 			sleep(50)
@@ -179,7 +179,7 @@ GLOBAL_LIST_INIT(capstone_pool, list(
 			if(user.show_redflash())
 				user.flash_fullscreen("redflash3")
 			//Caustic Edit End
-			user.emote("agony", forced = TRUE)
+			user.emote("superagony", forced = TRUE)
 			user.Stun(30)
 			user.Knockdown(30)
 			sleep(30)
@@ -188,7 +188,7 @@ GLOBAL_LIST_INIT(capstone_pool, list(
 			if(user.show_redflash())
 				user.flash_fullscreen("redflash3")
 			//Caustic Edit End
-			user.emote("agony", forced = TRUE)
+			user.emote("superagony", forced = TRUE)
 			user.Stun(100)
 			user.Knockdown(100)
 			for(var/i = 1, i <= 10, i++)
