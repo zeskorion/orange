@@ -26,7 +26,7 @@
 			if("squeak")
 				used = 'sound/vo/mobs/bird/teshsqueak.ogg'
 			if("warble")
-				used = list('sound/vo/mobs/bird/warbles.ogg', 'sound/vo/mobs/bird/wurble.ogg')
+				used = list('sound/vo/mobs/bird/warbles.ogg')
 			if("chirp")
 				used = 'sound/vo/mobs/bird/teshchirp.ogg'
 			if("dove")
