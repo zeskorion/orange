@@ -28,6 +28,9 @@
 	grid_height = 64
 	grid_width = 32
 
+	/// Instrument is in some other holder such as an organ or item.
+	var/not_held = FALSE
+
 /obj/item/rogue/instrument/equipped(mob/living/user, slot)
 	. = ..()
 	if(playing && user.get_active_held_item() != src)
@@ -368,6 +371,13 @@
 	"Season" = 'sound/music/instruments/shamisen (6).ogg',
 	"Parade" = 'sound/music/instruments/shamisen (7).ogg',
 	"Koshiro" = 'sound/music/instruments/shamisen (8).ogg')
+
+/obj/item/rogue/instrument/vocals/harpy_vocals
+	name = "harpy's song"
+	desc = "The blessed essence of harpysong. How did you get this... you monster!"
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "harpysong"		//Pulsating heart energy thing.
+	not_held = TRUE
 
 /obj/item/rogue/instrument/psyaltery
 	name = "psyaltery"

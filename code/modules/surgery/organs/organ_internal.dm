@@ -50,6 +50,8 @@
 	/// Whether this organ has ever been inside a mob
 	var/had_owner = FALSE
 
+	var/should_regenerate = FALSE
+
 	grid_width = 32
 	grid_height = 32
 
