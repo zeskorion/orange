@@ -1,23 +1,21 @@
-/obj/item/alch/feystool
+/obj/structure/flora/roguegrass/herb/faestool
 	name = "fae toadstool"
 	desc = "A small, colourful mushroom, claimed by some to be of the faerealm."
 	icon = 'icons/obj/flora/rogueflora.dmi'
 	icon_state = "zizo_bane"
 
-	major_pot = /datum/alch_cauldron_recipe/shrink
-	med_pot = /datum/alch_cauldron_recipe/grow
+	herbtype = /obj/item/alch/feystool
 
-/obj/item/alch/wyldweed
+/obj/structure/flora/roguegrass/herb/wyldweed
 	name = "wyldweed"
 	desc = "A troublesome plant known for the rapid, unchecked growth of its many fronds."
 	icon_state = "symphitum"
-	major_pot = /datum/alch_cauldron_recipe/grow
-	med_pot = /datum/alch_cauldron_recipe/normalize
 
-/obj/item/alch/boastersnare
+	herbtype = /obj/item/alch/wyldweed
+
+/obj/structure/flora/roguegrass/herb/boastersnare
 	name = "boaster's snare"
 	desc = "A plant known for its tough, tangling roots. Many tales are told of it tripping the overconfident hunter and allowing their quarry to escape"
 	icon_state = "paris"
 
-	major_pot = /datum/alch_cauldron_recipe/normalize
-	med_pot = /datum/alch_cauldron_recipe/shrink
+	herbtype = /obj/item/alch/boastersnare
