@@ -6,7 +6,7 @@
 /datum/loadout_item/artijacket
     name = "Artificer Jacket"
     path = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/loadout
-	sort_category = "Misc"
+    sort_category = "Misc"
 
 /datum/loadout_item/item_tf_chalk
 	name = "Consolidation Chalk"
