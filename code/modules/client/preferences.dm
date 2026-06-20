@@ -269,7 +269,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/feint_hud = FALSE
 
 	// Vocal bark prefs
-	var/bark_id = "mutedc3"
+	var/bark_id = "None" //OV Edit
 	var/bark_speed = 4
 	var/bark_pitch = 1
 	var/bark_variance = 0.2

@@ -603,7 +603,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["mute_barks"] >> mute_barks
 
 	if(!(bark_id in GLOB.bark_list))
-		bark_id = pick(GLOB.bark_random_list)
+		bark_id = "None" //OV Edit
 	var/datum/bark/B = GLOB.bark_list[bark_id]
 	bark_speed = round(clamp(bark_speed, initial(B.minspeed), initial(B.maxspeed)), 1)
 	bark_pitch = clamp(bark_pitch, initial(B.minpitch), initial(B.maxpitch))
