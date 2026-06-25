@@ -70,7 +70,7 @@
 			if("Pistol")
 				H.adjust_skillrank_up_to(/datum/skill/combat/firearms, SKILL_LEVEL_APPRENTICE, TRUE)
 				beltl = /obj/item/quiver/bulletpouch/iron
-				r_hand = /obj/item/gun/ballistic/arquebus_pistol
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/pistol
 				l_hand = /obj/item/powderflask
 			if("Grappling Hook")
 				H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
