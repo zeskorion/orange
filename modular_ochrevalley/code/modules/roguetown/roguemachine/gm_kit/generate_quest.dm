@@ -78,6 +78,7 @@
 	var/region_name = where_to_spawn?.region_name
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_KILL_EASY, region_name, Q)
 	if(!landmark)
+		message_admins("No landmark")
 		qdel(Q)
 		return null
 	if(!Q.preview(landmark))
@@ -191,7 +192,7 @@
 	if(!shipment_name)
 		return
 	
-	var/area/target_area = tgui_input_list(usr, "Where is the delivery area?", "Delivery", GLOB.sortedAreas)
+	var/area/target_area = tgui_input_list(user, "Where is the delivery area?", "Delivery", GLOB.sortedAreas)
 	if(!target_area)
 		return
 	
@@ -313,14 +314,44 @@
 	return get_quest_faction("generated")
 
 /datum/quest/kill/recovery/generated/preview(obj/effect/landmark/quest_spawner/landmark)
-	. = ..()
-	if(!.)
+	message_admins("Entered preview")
+	if(!landmark)
+		message_admins("No landmark")
 		return FALSE
-	// Destination picks the item pool. If Rumor-dispatcher pre-set an override, use it; else random.
+	pending_landmark_ref = WEAKREF(landmark)
+	target_spawn_area = get_area_name(get_turf(landmark))
+	region = landmark.region
+
+	if(!region)
+		message_admins("no region")
+		return FALSE
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	if(!TR)
+		message_admins("no threat region")
+		return FALSE
+	faction = pick_region_faction_for(TR)
+	if(!faction)
+		message_admins("no faction")
+		return FALSE
+	faction_id = faction.id
+	// Scale by regional danger, then roll per-quest variance so two same-difficulty quests differ.
+	tp_budget = roll_tp_budget(tp_budget, TR.tp_budget_multiplier)
+	// target_mob_type is picked here for display purposes only — the actual composition is
+	// computed at materialize time via TP budget spending.
+	target_mob_type = faction.pick_mob_type()
+	if(!target_mob_type)
+		message_admins("no target mob type")
+		return FALSE
+	
+	progress_required = estimate_mob_count()
+	if(faction.boss_name_file)
+		band_leader_name = faction.generate_boss_name()
+	
 	var/area/destination = override_destination
 	target_delivery_location = destination
 	progress_required = 1
 	finalize_preview_title()
+	message_admins("Preview complete")
 	return TRUE
 
 /datum/quest/kill/recovery/generated/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
