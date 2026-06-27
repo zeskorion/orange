@@ -58,6 +58,7 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE
 	)
+	extra_context = "Chooses between a Pistol, a Grappler, a Clockwork Drill, Voltic Gauntlets (+2 STR, -2 SPD), Bronze Arms(+2 STR, -2 SPD), or Bronze Legs."
 
 /datum/outfit/job/roguetown/adventurer/tinkerer/pre_equip(mob/living/carbon/human/H)
 	..()
