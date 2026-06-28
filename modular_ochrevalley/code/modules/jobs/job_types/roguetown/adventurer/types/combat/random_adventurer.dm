@@ -269,7 +269,7 @@
 			/obj/item/storage/belt/rogue/leather/sash,
 			/obj/item/storage/belt/rogue/leather/plaquesilver,
 			/obj/item/storage/belt/rogue/leather/black,
-			/obj/item/storage/belt/rogue/leather/cloth/lady,
+			/obj/item/storage/belt/rogue/leather/cloth/upgraded/lady,
 	)
 	beltl = pick(/obj/item/storage/belt/rogue/pouch/coins/poor,
 			/obj/item/storage/belt/rogue/pouch/coins/rich,
