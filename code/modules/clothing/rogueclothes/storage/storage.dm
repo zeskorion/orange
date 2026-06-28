@@ -622,7 +622,7 @@
 	icon_state = "ingrab"
 	attack_verb = list("digs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 90
+	penfactor = PEN_LIGHT
 	clickcd = 15
 	swingdelay = 0
 	damfactor = 1
