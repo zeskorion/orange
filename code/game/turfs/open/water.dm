@@ -183,6 +183,7 @@
 		if (istype(src,/turf/open/water/bloody))
 			L.add_mob_blood(L)
 
+		if(!(L.movement_type & FLYING))
 			if(!(L.mobility_flags & MOBILITY_STAND) || water_level == 3) // OV Edit Start
 				L.SoakMob(FULL_BODY)
 			else
