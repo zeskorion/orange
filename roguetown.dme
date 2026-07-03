@@ -3668,6 +3668,7 @@
 #include "modular_causticcove\code\modules\juices\juices.dm"
 #include "modular_causticcove\code\modules\juices\varmods.dm"
 #include "modular_causticcove\code\modules\merporgans\belly.dm"
+#include "modular_ochrevalley\code\modules\dcbot\add_donator.dm"
 #include "modular_causticcove\code\modules\merporgans\butt.dm"
 #include "modular_causticcove\code\modules\mob\dead\new_player\sprite_accessory\ears.dm"
 #include "modular_causticcove\code\modules\mob\dead\new_player\sprite_accessory\horns.dm"
