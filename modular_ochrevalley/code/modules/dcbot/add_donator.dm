@@ -10,4 +10,4 @@
 		message_admins("Ochrebot added [key] to the donator list.")
 		log_admin("Ochrebot added [key] to the donator list.")
 		return "Ochrebot added [key] to the donator list."
-	return "Something went wrong! "
+	return "Ckey is invalid, or [key] is already on donator list."
