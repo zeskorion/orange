@@ -616,10 +616,8 @@
 	flags_inv = HIDEFACE|HIDESNOUT
 	sellprice = 10
 
-/* //Caustic Edit - Removing the Naledi Debuff
 /obj/item/clothing/mask/rogue/lordmask/naledi/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NALEDI, "naledi_mask")
-*/ //Caustic Edit End
 
 /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 	name = "sojourner's mask"
