@@ -1013,12 +1013,12 @@
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 //OV ADD START
-/obj/item/clothing/mask/rogue/xylixmask/tragedianhalf
+/obj/item/clothing/mask/rogue/xylixmask/xylixhalfmask
 	name = "half-tragedian mask"
 	icon = 'modular_ochrevalley/icons/roguetown/clothing/masks.dmi'
 	mob_overlay_icon = 'modular_ochrevalley/icons/roguetown/clothing/onmob/masks.dmi'
-	item_state = "tragedian"
-	icon_state = "tragedian"
+	item_state = "xylixhalfmask"
+	icon_state = "xylixhalfmask"
 	desc = "A Jester's tragedian mask, halfed and sat upon the face to reflect despair and sadness, for those who either are absorbed by melancholy or denied their own frown."
 	// No armor anyways
 	max_integrity = 200
