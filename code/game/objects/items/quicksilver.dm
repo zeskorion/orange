@@ -104,7 +104,7 @@
 // Ochre change start - any werewolf can be cured
 	//Werewolf deconversion
 	if(Were && !Wereless) //The roundstart elder/alpha werewolf
-		if(Wereless.transformed == TRUE)
+		if(Were.transformed == TRUE)
 			var/mob/living/carbon/human/I = M.stored_mob
 			to_chat(M, span_userdanger("THE FOUL SILVER! MY BODY RENDS ITSELF ASUNDER!"))
 			M.werewolf_untransform()
