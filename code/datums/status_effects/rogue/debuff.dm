@@ -886,8 +886,7 @@
 /datum/status_effect/debuff/harpy_flight/on_apply()
 	. = ..()
 	harpy = owner
-	animate(harpy, pixel_y = harpy.pixel_y + 3, time = 6, loop = -1) // thank you shadowdeath6
-	animate(pixel_y = harpy.pixel_y - 3, time = 6) // thank you oog
+	owner.float(TRUE)
 	harpy.drop_all_held_items()
 	for(var/obj/item/rogueweapon/huntingknife/idagger/harpy_talons/talons in harpy_wings.nullspace_items)
 		var/talons_final = talons
@@ -922,8 +921,8 @@
 	if(harpy.buckled)
 		to_chat(harpy, span_bloody("Ha-ha, time to rest my wings!"))
 		harpy.remove_status_effect(/datum/status_effect/debuff/harpy_flight)
-	if(harpy.mind)
-		harpy.mind.add_sleep_experience(/datum/skill/misc/athletics, (harpy.STAINT*0.03), FALSE)
+	// if(harpy.mind)
+	// 	harpy.mind.add_sleep_experience(/datum/skill/misc/athletics, (harpy.STAINT*0.03), FALSE)
 	if(!(harpy.mobility_flags & MOBILITY_STAND))
 		to_chat(harpy, span_bloody("I can't flap my wings while imbalanced like this! AGHH!!"))
 		harpy.remove_status_effect(/datum/status_effect/debuff/harpy_flight)
@@ -943,7 +942,7 @@
 	harpy.movement_type &= ~FLYING
 	tile_under_harpy.zFall(harpy)
 	remove_signals()
-	animate(harpy)
+	owner.float(FALSE)
 	REMOVE_TRAIT(harpy, TRAIT_SPELLCOCKBLOCK, ORGAN_TRAIT)
 	harpy.flying = FALSE
 	if(harpy.is_holding_item_of_type(/obj/item/rogueweapon/huntingknife/idagger/harpy_talons))
