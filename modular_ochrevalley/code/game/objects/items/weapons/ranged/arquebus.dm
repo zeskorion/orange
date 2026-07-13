@@ -133,10 +133,12 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/Initialize()
 	. = ..()
 	RegisterSignal(src, COMSIG_AFTER_STORAGE_INSERT, PROC_REF(checkstoragevalidity))
+	RegisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE, PROC_REF(checkstoragevalidity))
 	myrod = new /obj/item/ramrod(src)
 	
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/Destroy()
 	UnregisterSignal(src, COMSIG_AFTER_STORAGE_INSERT)
+	UnregisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE)
 	. = ..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/shoot_live_shot(mob/living/user as mob|obj, pointblank = 0, mob/pbtarget = null, message = 1)
@@ -192,15 +194,15 @@
 	update_icon()
 
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/proc/checkstoragevalidity()
-	var/holdsagun = FALSE
-	if(istype(loc, /obj/item/storage))
-		var/obj/item/storage/str = loc 
-		holdsagun = str.holdsguns
-	else if(istype(loc, /obj/item/clothing))
-		var/obj/item/clothing/clth = loc
-		holdsagun = clth.holdsguns
-	if(!holdsagun)
+/obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/proc/checkstoragevalidity(datum/source, obj/storage_master, mob/user, datum/storage_datum)
+	var/force_unload = FALSE
+	if(istype(storage_master, /obj/item/storage))
+		var/obj/item/storage/str = storage_master
+		force_unload = str.force_stored_weapon_unload
+	else if(istype(storage_master, /obj/item/clothing))
+		var/obj/item/clothing/clth = storage_master
+		force_unload = clth.force_stored_weapon_unload
+	if(force_unload)
 		unload()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/proc/unload(mob/user)
@@ -209,41 +211,42 @@
 		reloaded = FALSE
 		if(chambered)
 			if(user)
-				user.visible_message("<span class='notice'>[user] unloads the [chambered] from [src].</span>")
+				user.visible_message(span_notice("[user] unloads the [chambered] from [src]."))
 			else
-				visible_message("<span class='notice'>[chambered] spills from [src]'s barrel!</span>")
+				visible_message(span_notice("[chambered] spills from [src]'s barrel!"))
 			LAZYREMOVE(magazine.stored_ammo, chambered)
 			chambered.forceMove(get_turf(src))
 			chambered = null
 			return TRUE
 		if(user)
-			user.visible_message("<span class='notice'>[user] unloads the powder from [src].</span>")
+			user.visible_message(span_notice("[user] unloads the powder from [src]."))
 			return TRUE
-		visible_message("<span class='notice'>Powder spills from [src]'s barrel!</span>")
+		visible_message(span_notice("Powder spills from [src]'s barrel!"))
 		return TRUE
 	return FALSE
 
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/attack_right(mob/user)
-	if(user.get_active_held_item())
-		if(istype(user.get_active_held_item(), /obj/item/ramrod) && (chambered || gunpowder))
-			to_chat(user, "<span class='warning'>I begin to unload the [src]!</span>")
-			user.visible_message("<span class='notice'>[user] begins rooting [user.get_active_held_item()] around in the barrel of the [src].</span>")
+	var/held_item = user.get_active_held_item()
+	if(held_item)
+		if(istype(held_item, /obj/item/ramrod) && (chambered || gunpowder))
+			to_chat(user, span_notice("I begin to unload the [src]!"))
+			user.visible_message(span_notice("[user] begins rooting [user.get_active_held_item()] around in the barrel of the [src]."))
 			playsound(src, 'modular_causticcove/sound/arquebus/ramrod.ogg',  100)
 			if(do_after(user, load_time, src))
-				user.visible_message("<span class='notice'>[user] unloads [src].</span>")
+				user.visible_message(span_notice("[user] unloads [src]."))
 				unload(user)
 		return
 	else
 		if(myrod)
 			playsound(src, "sound/items/sharpen_short1.ogg",  100)
-			to_chat(user, "<span class='warning'>I draw the ramrod from [src]!</span>")
+			to_chat(user, span_notice("I draw the ramrod from [src]!"))
 			var/obj/item/ramrod/AM
 			for(AM in src)
 				user.put_in_hands(AM)
 				myrod = null
 		else
-			to_chat(user, "<span class='warning'>There is no rod stowed in [src]!</span>")
+			to_chat(user, span_warning("There is no rod stowed in [src]!"))
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/attackby(obj/item/A, mob/living/carbon/user, params) // Reloading code for rifle
 	if (gunchannel) // If you send null, you're going to stop all sound channels!
@@ -256,26 +259,26 @@
 		if(user.get_inactive_held_item() != src && user.get_active_held_item() != src) // You have to hold it to load it.
 			return
 		if(chambered)
-			to_chat(user, "<span class='warning'>There is already [chambered] in [src]!</span>")
+			to_chat(user, span_warning("There is already [chambered] in [src]!"))
 			return
 		if(!gunpowder)
-			to_chat(user, "<span class='warning'>You must fill [src] with gunpowder first!</span>")
+			to_chat(user, span_warning("You must fill [src] with gunpowder first!"))
 			return
 		if(!istype(A, /obj/item/ammo_casing/caseless/rogue/bullet))
-			to_chat(user, "<span class='warning'>[A] cannot be fired from [src].</span>")
+			to_chat(user, span_warning("[A] cannot be fired from [src]."))
 			return
 		playsound(src, 'modular_causticcove/sound/arquebus/musketload.ogg',  100)
-		user.visible_message("<span class='notice'>[user] forces [A] down the barrel of [src].</span>")
+		user.visible_message(span_notice("[user] forces [A] down the barrel of [src]."))
 
 	if(istype(A, /obj/item/powderflask))
 		if(user.get_inactive_held_item() != src) // You have to hold it to load it.
 			return
 		if(gunpowder)
-			user.visible_message("<span class='warning'>[src] is already filled with gunpowder!</span>")
+			user.visible_message(span_notice("[src] is already filled with gunpowder!</span>"))
 			return
 		playsound(src, 'modular_causticcove/sound/arquebus/pour_powder.ogg',  100)
 		if(do_after(user, load_time_skill, src))
-			user.visible_message("<span class='notice'>[user] fills [src] with gunpowder.</span>")
+			user.visible_message(span_notice("[user] fills [src] with gunpowder.</span>"))
 			gunpowder = TRUE
 		return
 	if(istype(A, /obj/item/ramrod))
@@ -283,22 +286,22 @@
 		if(!reloaded && chambered)
 			if(user.get_inactive_held_item() != src) // You have to hold it to load it.
 				return
-			user.visible_message("<span class='notice'>[user] begins ramming the [R] down the barrel of [src].</span>")
+			user.visible_message(span_notice("[user] begins ramming the [R] down the barrel of [src]."))
 			playsound(src, 'modular_causticcove/sound/arquebus/ramrod.ogg',  100)
 			if(do_after(user, load_time_skill, src))
-				user.visible_message("<span class='notice'>[user] has finished reloading [src].</span>")
+				user.visible_message(span_notice("[user] has finished reloading [src]."))
 				reloaded = TRUE
 			return
 		if(reloaded && !myrod)
 			user.transferItemToLoc(R, src)
 			myrod = R
 			playsound(src, 'modular_causticcove/sound/sheath_sounds/put_back_dagger.ogg',  100)
-			user.visible_message("<span class='notice'>[user] stows [R] under the barrel of [src].</span>")
+			user.visible_message(span_notice("[user] stows [R] under the barrel of [src]."))
 		if(!chambered && !myrod)
 			user.transferItemToLoc(R, src)
 			myrod = R
 			playsound(src, 'modular_causticcove/sound/sheath_sounds/put_back_dagger.ogg',  100)
-			user.visible_message("<span class='notice'>[user] stows [R] under the barrel of [src] without chambering it.</span>")
+			user.visible_message(span_notice("[user] stows [R] under the barrel of [src] without chambering it."))
 		if(!myrod == null)
 			to_chat(user, span_warning("There's already a [R] inside of [src]."))
 			return
@@ -419,7 +422,7 @@
 				user.visible_message("<span class='danger'>[user] accidentally discharges [src]!</span>")*/ // This is supposed to make the gun go off but someone forgot what they were doing while writing it I guess.
 		if(firearm_skill <= 3)
 			if(prob(50))
-				user.visible_message("<span class='danger'>[user] accidentally drops [src]!</span>")
+				user.visible_message(span_danger("[user] accidentally drops [src]!"))
 				user.dropItemToGround(src)
 		can_spin = FALSE
 
@@ -440,35 +443,15 @@
 	..()
 
 /obj/item/storage
-	var/holdsguns = FALSE
+	var/force_stored_weapon_unload = TRUE
 
 /obj/item/clothing
-	var/holdsguns = FALSE
+	var/force_stored_weapon_unload = TRUE
 
 /* Definitions for if someone wants to allow guns into belts, cloaks, or what have you later. I've erred on the side of conservative for now
 /obj/item/clothing/cloak
-	holdsguns = TRUE
+	force_stored_weapon_unload = FALSE
 
 /obj/item/storage/belt
-	holdsguns = TRUE
+	force_stored_weapon_unload = FALSE
 */
-
-/datum/component/storage/spill_contents(atom/A)
-	. = ..()
-	var/holdsagun = FALSE
-	if(istype(A, /obj/item/storage))
-		var/obj/item/storage/str = A 
-		holdsagun = str.holdsguns
-	else if(istype(A, /obj/item/clothing))
-		var/obj/item/clothing/clth = A 
-		holdsagun = clth.holdsguns
-	if(!holdsagun)
-		for(var/obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/arquebus in A.contents)
-			arquebus.unload()
-
-
-/obj/item/storage/equipped(mob/user, slot)
-	. = ..()
-	if(!holdsguns)
-		for(var/obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/arquebus in contents)
-			arquebus.unload()
