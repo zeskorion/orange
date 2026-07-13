@@ -161,13 +161,13 @@
 
 /datum/action/cooldown/spell/conjure_summon/proc/dismiss_summons(list/mobs)
 	for(var/mob/living/M in mobs)
-		M.release_vore_contents() //OV Edit: Don't let summons send people to the shadow realm
+		M.release_vore_contents(silent = TRUE) //OV Edit: Don't let summons send people to the shadow realm
 		dismiss_conjured_minion(M)
 
 /datum/action/cooldown/spell/conjure_summon/proc/remove_conjure(mob/living/summoned)
 	SIGNAL_HANDLER
 	conjured_mobs -= summoned
-	summoned.release_vore_contents() //OV Edit: Don't let summons send people to the shadow realm
+	summoned.release_vore_contents(silent = TRUE) //OV Edit: Don't let summons send people to the shadow realm
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(update_conjure_upkeep), owner)
 
 /proc/apply_conjure_recoil(mob/living/summoner, energy_floor = 200, apply_debuff = TRUE)
