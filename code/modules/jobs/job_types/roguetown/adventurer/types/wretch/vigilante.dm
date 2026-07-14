@@ -67,6 +67,12 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
+	//ov edit. They get all of these too. Also, *They're~
+	H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/boxing)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/karate)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/claws)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/bigclaws)
+	//ov edit end 
 	H.change_stat(STATKEY_STR, 2)
 	H.change_stat(STATKEY_CON, 3)
 	H.change_stat(STATKEY_WIL, 3)

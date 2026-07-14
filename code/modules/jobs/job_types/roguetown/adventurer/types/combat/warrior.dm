@@ -312,7 +312,8 @@
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-			var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
+					//ovedit- martial arts added to wrasslin' techniques
+			var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff", "Boxing - Martial Art", "Hollow Hands - Martial Art", "Lynx Claws - Martial Art", "Direbear Claws - Martial art") // cool wrestling moves
 			var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
 			switch(technique_choice)
 				if("Dropkick - Pushback + Extra Damage")
@@ -323,6 +324,15 @@
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
 				if("Headbutt - Vulnerable Debuff")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
+				if("Boxing - Martial Art")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/boxing)
+				if("Hollow Hands - Martial Art")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/karate)
+				if("Lynx Claws - Martial Art")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/claws)
+				if("Direbear Claws - Martial art")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/abstractweapon/martialart/bigclaws)
+				//ovedit end
 		if("Discipline - Bodybuilder") //its really not that good
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
