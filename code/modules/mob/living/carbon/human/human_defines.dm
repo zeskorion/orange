@@ -236,4 +236,3 @@
 	var/time_of_last_move = 0
 	//Caustic Edit End
 
-	var/allow_taur_clothing = TRUE //OV EDIT
