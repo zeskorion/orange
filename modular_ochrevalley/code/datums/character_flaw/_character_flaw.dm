@@ -138,3 +138,30 @@ GLOBAL_LIST_INIT(dendor_touched_animals, list(
 		to_chat(user, span_warning("I can feel my animal form being drawn out in the darkness..."))
 	countdown = countdown + 1
 	next_check = world.time + 5
+
+/datum/charflaw/changeling
+	name = "Fey Cursed"
+	desc = "You owe your life, through continuation or creation, to the fey. They know your true name, but you may not know of them, or of your nature. Unlike those who have embraced their fey heritage, you are unable to take advantage of it, and a hag may choose to curse you at their leisure" 
+	needs_extra_vice = TRUE
+
+/datum/charflaw/changeling/on_mob_creation(mob/user)
+	ADD_TRAIT(user, TRAIT_FEYCURSED, TRAIT_GENERIC)
+	for(var/mob/living/hag_mob in GLOB.active_hags)
+		var/datum/mind/hag_mind = hag_mob.mind
+		if(!hag_mind)
+			continue
+		hag_mind.i_know_person(user)
+		to_chat(hag_mind.current, span_boldnotice("The roots watch a dormant seedling... [user.real_name] is walking the lands this week."))
+		var/datum/component/hag_curio_tracker/HCT = hag_mob.GetComponent(/datum/component/hag_curio_tracker)
+		if(!HCT) 
+			continue
+		if(HCT.find_boon_by_type(user.real_name, /datum/hag_boon/changeling))
+			continue
+		HCT.grant_boon(user.real_name, /datum/hag_boon/changeling, 0)
+
+/datum/hag_boon/changeling
+	name = "Wyrd Lux"
+	desc = "The lux of one who bears this mark has been blessed with the mossmother's influence, whether to weave the first thread, or mend what was broken. They are as the mossmother's own offspring, and at the mercy of their discipline."
+	points = 0
+	transmutable = TRUE
+	hag_curse = FALSE

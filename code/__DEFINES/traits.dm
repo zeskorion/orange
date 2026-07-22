@@ -322,6 +322,7 @@
 #define TRAIT_LYFE_DRINK "Hemovore"
 #define TRAIT_ARMOR_AVERSE "Armor Averse"
 #define TRAIT_FERAL_MINOR "Less Feral"
+#define TRAIT_FEYCURSED "Changeling"
 //OV File End
 
 // Economic Roles Traits
@@ -632,6 +633,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 	//OV Add Start
 	TRAIT_LYFE_DRINK = span_bloody("I hunger for fresh lyfe's blood."),
+	TRAIT_FEYCURSED = span_info("I was born, or rescued from certain death, under strange circumstances, unaided by the divine.")
 	//OV Add End
 ))
 

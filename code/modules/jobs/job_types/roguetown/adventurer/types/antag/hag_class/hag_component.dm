@@ -67,6 +67,16 @@
 			found_any = TRUE
 			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
 			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
+		//ov edit add- feycursed
+		if(HAS_TRAIT(H, TRAIT_FEYCURSED))
+			// The Hag mind learns about the vessel
+			hag_mob.mind.i_know_person(H)
+			found_any = TRUE
+			to_chat(hag_mob, span_boldnotice("The roots watch a dormant seedling... [H.real_name] is walking the lands this week."))
+			if(find_boon_by_type(H.real_name, /datum/hag_boon/changeling))
+				continue
+			grant_boon(H.real_name, /datum/hag_boon/changeling, 0)
+		//ov edit end
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
@@ -254,7 +264,9 @@
 		var/has_real_boon = FALSE
 		for(var/datum/hag_boon/B in boon_registry[v_name])
 			// If they have a valid hag boon that IS NOT a curse and IS NOT a scar
-			if(B.hag_is_valid && !B.hag_curse && !istype(B, /datum/hag_boon/curse_scar))
+			//ov edit- add feycursed. Check feycursed here, but not below
+			if(B.hag_is_valid && !B.hag_curse && !istype(B, /datum/hag_boon/curse_scar) && !istype(B, /datum/hag_boon/changeling))
+			//ov edit end
 				has_real_boon = TRUE
 				break
 		

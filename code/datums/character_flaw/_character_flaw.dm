@@ -49,6 +49,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/hemovore::name=/datum/charflaw/hemovore,
 	/datum/charflaw/dendor_touched::name=/datum/charflaw/dendor_touched,
 	/datum/charflaw/ravenous::name=/datum/charflaw/ravenous,
+	/datum/charflaw/changeling::name=/datum/charflaw/changeling,
 	//OV Add End
 	))
 
