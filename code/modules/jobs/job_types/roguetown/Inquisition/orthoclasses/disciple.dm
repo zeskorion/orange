@@ -115,6 +115,6 @@
 	var/origins = list("Otava", "Naledi")
 	var/origin_choice = input(H,"Choose your HERALDRY.", "TAKE UP PSYDON'S ARMS.") as anything in origins
 	if(origin_choice == "Naledi")
-		neck = /obj/item/clothing/neck/roguetown/psicross/naledi
+		neck = /obj/item/clothing/neck/roguetown/psicross/silver/naledi
 		id = /obj/item/clothing/ring/signet/psy/g
 	//OV Edit End
