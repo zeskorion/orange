@@ -40,7 +40,7 @@
 	newtime -= user.get_skill_level(/datum/skill/combat/firearms) * 4.6
 	newtime -= user.STAPER
 	return max(newtime, 1) * ARCHER_NPC_ROF_PENALTY // NPCs shoot slower than players though.
-	
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/
 	name = "arquebus rifle"
 	desc = "A gunpowder weapon that shoots an armor piercing metal ball."
@@ -94,6 +94,7 @@
 	var/gunpowder = FALSE
 	var/obj/item/ramrod/myrod = null
 	var/gunchannel
+	var/quick_reload = TRUE //if this is true, the ramrod step may be performed whilst moving
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/examine(mob/user)
 	. = ..()
@@ -135,7 +136,7 @@
 	RegisterSignal(src, COMSIG_AFTER_STORAGE_INSERT, PROC_REF(checkstoragevalidity))
 	RegisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE, PROC_REF(checkstoragevalidity))
 	myrod = new /obj/item/ramrod(src)
-	
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus/Destroy()
 	UnregisterSignal(src, COMSIG_AFTER_STORAGE_INSERT)
 	UnregisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE)
@@ -277,7 +278,7 @@
 			user.visible_message(span_notice("[src] is already filled with gunpowder!</span>"))
 			return
 		playsound(src, 'modular_causticcove/sound/arquebus/pour_powder.ogg',  100)
-		if(do_after(user, load_time_skill, src))
+		if(do_after(user, load_time_skill, src, allow_movement = quick_reload))
 			user.visible_message(span_notice("[user] fills [src] with gunpowder.</span>"))
 			gunpowder = TRUE
 		return
@@ -378,6 +379,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	range = 10
 	onehanded = TRUE
+	quick_reload = FALSE
 	var/can_spin = TRUE
 	var/last_spunned
 	var/spin_cooldown = 3 SECONDS
