@@ -42,7 +42,6 @@ subclass_skills = list(
 
 /datum/outfit/job/roguetown/wretch/madtinkerer/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("Combat is not ideal, but you're no pushover. Your prowess would be called madness, to the close-minded folks of 'proper society'. They might even say your ambition will lead to ruin. You know better."))
-	has_loadout = TRUE
 	head = /obj/item/clothing/mask/rogue/facemask/steel/confessor/tinkerer
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/labboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -50,7 +49,7 @@ subclass_skills = list(
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/labcoat
 	gloves = /obj/item/clothing/gloves/roguetown/angle/labgloves
-	cloak =
+	cloak = /obj/item/clothing/cloak/bandolier
 	belt = /obj/item/storage/belt/rogue/leather/black
 	neck = /obj/item/clothing/neck/roguetown/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
@@ -86,7 +85,7 @@ subclass_skills = list(
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne)
 				beltl = /obj/item/rogueweapon/scabbard/sheath
-		var/fixations = list("Arcyne Secrets", "Transcend Humen Limitations", "Whimsy")
+		var/fixations = list("Arcyne Secrets", "", "")
 		var/fixation_choice = input(H, "What is your pursuit?", "THEY CALLED ME MAD!") as anything in fixations
 		var/mage = FALSE
 		switch(fixation_choice)
@@ -98,7 +97,10 @@ subclass_skills = list(
 				ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)//bare minimum for organ manipulation.
 				H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Whimsy")//classic tinkerer. You get to start with a bunch of fun gadgets
+				H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/labor/farming, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if(!mage)
 			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/artifice) "ward" = TRUE))
 		wretch_select_bounty(H)
@@ -131,6 +133,8 @@ subclass_skills = list(
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/labcoat/equipped(mob/user, slot)
 	..()
+	if(HAS_TRAIT(user, TRAIT_IRONMAN)) //there's a bunch of construct jank if they get shock immunity. don't fuck wth it
+		return
 	if(slot == SLOT_ARMOR)
 		ADD_TRAIT(user, TRAIT_SHOCKIMMUNE, "labcoat") //not a terribly relevant trait here, but it'll come up at times
 		return
@@ -155,7 +159,7 @@ subclass_skills = list(
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
 /obj/item/rogueweapon/contraption/linker/mace/big/preloaded/implement
-	name =
+	name = "Infused Wrench"
 	desc = "An inordinately large bronze wrench, altered to function as a spellcasting focus"
 	implement_tier = IMPLEMENT_TIER_LESSER
 	implement_refund = IMPLEMENT_REFUND_LESSER
