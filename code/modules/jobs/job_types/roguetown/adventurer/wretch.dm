@@ -53,7 +53,10 @@
 		/datum/advclass/wretch/ancient_spellblade,
 		/datum/advclass/wretch/ancient_deathknight,
 		/datum/advclass/wretch/slasher,
-		/datum/advclass/wretch/maestro
+		/datum/advclass/wretch/maestro,
+		//ov edit
+		/datum/advclass/wretch/madtinkerer
+		//ov edit end
 	)
 	has_subprefs = TRUE
 	default_subprefs = list("bounty_poster_key" = null, "bounty_severity_key" = null, "my_crime" = null, "favorite_advclass" = null)
