@@ -4,4 +4,3 @@
 
 //labwear- equivalent to leather, but with worse blunt protection in exchange for very potent fire protection
 #define ARMOR_LABWEAR list("blunt" = DR_HEAVY, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_SUPER, "acid" = DR_SUPER)
-#define ARMOR_LABGOGGLES list("blunt" = DR_HEAVY, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_SUPER, "acid" = DR_SUPER)
